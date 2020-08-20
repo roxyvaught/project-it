@@ -6,7 +6,7 @@ export default function Charts() {
   return (
     <Chart
     width={'100%'}
-    height={'275'}
+    height={'300'}
     chartType="Gantt"
     loader={<div>Loading Chart</div>}
     data={[

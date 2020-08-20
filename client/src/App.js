@@ -36,8 +36,8 @@ function App() {
             <Route exact path="/" component={Dashboard} />
             <Route exact path="/login" component={Login} />
           </Switch>
-        </div>
           <Footer />
+        </div>
         </div>
       </Router>
     </ApolloProvider>
