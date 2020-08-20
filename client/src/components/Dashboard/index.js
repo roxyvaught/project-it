@@ -15,10 +15,11 @@ import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Button from '@material-ui/core/Button';
-import { mainListItems, secondaryListItems } from '../ListItems';
+import { mainListItems } from '../ListItems';
 import Chart from '../Chart';
 import Projects from '../LatestProject';
 import Team from '../Team';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -129,7 +130,7 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Dashboard
           </Typography>
-          <Button variant="contained">Sign In</Button>
+          <Button variant="contained"><Link to="/login">Sign In</Link></Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -147,7 +148,7 @@ export default function Dashboard() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-        <List>{secondaryListItems}</List>
+      {/* <List>{secondaryListItems}</List> */}
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

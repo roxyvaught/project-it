@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Login from './pages/Login';
 
 // add these two library import statements
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -33,6 +34,7 @@ function App() {
           <div className="container">
           <Switch>
             <Route exact path="/" component={Dashboard} />
+            <Route exact path="/login" component={Login} />
           </Switch>
         </div>
           <Footer />
