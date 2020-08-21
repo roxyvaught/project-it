@@ -1,37 +1,45 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-  type Checkout {
-    session: ID
-  }
-
-  type Category {
+  type User {
     _id: ID
-    name: String
+    userName: String
+    email: String
   }
 
-  type Product {
+  type enum {
+    NOT_STARTED
+    IN_PROGRESS
+    COMPLETED
+  }
+
+  type Comment {
+    _id: ID
+    comment: String
+    createDate: String
+    user: User
+  }
+
+  type Task {
     _id: ID
     name: String
     description: String
-    image: String
-    quantity: Int
-    price: Float
-    category: Category
+    createDate: String
+    endDate: String
+    status: enum
+    users: [User]
+    comments: [Comment]
   }
 
-  type Order {
+  type Project {
     _id: ID
-    purchaseDate: String
-    products: [Product]
-  }
-
-  type User {
-    _id: ID
-    firstName: String
-    lastName: String
-    email: String
-    orders: [Order]
+    name: String
+    description: String
+    startDate: String
+    endDate: String
+    status: enum
+    tasks:[Task]
+    owner: User
   }
 
   type Auth {
@@ -40,19 +48,21 @@ const typeDefs = gql`
   }
 
   type Query {
-    categories: [Category]
-    products(category: ID, name: String): [Product]
-    product(_id: ID!): Product
+    projects:[Project]
+    project(_id: ID!):Project
     user: User
-    order(_id: ID!): Order
-    checkout(products: [ID]!): Checkout
+    tasks(project: ID): [Task]
+    comments(task: ID): [Comment]
   }
 
   type Mutation {
-    addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-    addOrder(products: [ID]!): Order
-    updateUser(firstName: String, lastName: String, email: String, password: String): User
-    updateProduct(_id: ID!, quantity: Int!): Product
+    addUser(userName: String!, email: String!, password: String!): Auth
+    updateUser(userName: String,  email: String, password: String): User
+    addProject(name: String!, description:String!, startDate:String!, endDate:String!, status:enum, owner ): Project
+    updateProject : 
+    addTask
+    updateTask
+    addComment
     login(email: String!, password: String!): Auth
   }
 `;
