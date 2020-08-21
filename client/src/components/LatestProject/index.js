@@ -19,7 +19,7 @@ export default function Projects() {
   return (
     <React.Fragment>
       <Header>Latest Project</Header>
-      <Typography component="p" variant="h4">
+      <Typography component="p" variant="h5">
         Housing Development
       </Typography>
       <Typography color="textSecondary" className={classes.projectContext}>
