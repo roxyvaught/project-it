@@ -24,8 +24,7 @@
     "react-google-charts": "^3.0.15",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "react-swipeable-views": "^0.13.9",
-    "recharts": "^1.8.5"
+    "react-swipeable-views": "^0.13.9"
   },
   "scripts": {
     "start": "react-scripts start",

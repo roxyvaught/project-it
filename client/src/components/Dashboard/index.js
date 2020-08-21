@@ -14,12 +14,19 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import Button from '@material-ui/core/Button';
+
 import { mainListItems } from '../ListItems';
 import Chart from '../Chart';
 import Projects from '../LatestProject';
 import Team from '../Team';
-import { Link } from 'react-router-dom';
+/*import { Link } from 'react-router-dom';*/
+import Logo from '../../assets/images/Logo.png'
+import { Tooltip } from '@material-ui/core';
+
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import FaceIcon from '@material-ui/icons/Face';
+import { blueGrey } from '@material-ui/core/colors';
+
 
 const drawerWidth = 240;
 
@@ -54,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: 36,
+    padding: '0 8px',
   },
   menuButtonHidden: {
     display: 'none',
@@ -128,9 +136,12 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
+            
+            <img height="65px" src={Logo} alt="project-it"/>
           </Typography>
-          <Button variant="contained"><Link to="/login">Sign In</Link></Button>
+          <Tooltip title="Login" interactive><IconButton href="/login"><FaceIcon fontSize="large" style={{ color: blueGrey[50] }} ></FaceIcon></IconButton></Tooltip>
+          
+          <Tooltip title="Sign Up" interactive><IconButton href="/signup"><PersonAddIcon fontSize="large" style={{ color: blueGrey[50] }} ></PersonAddIcon></IconButton></Tooltip>
         </Toolbar>
       </AppBar>
       <Drawer
