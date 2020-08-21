@@ -11,8 +11,8 @@ export default function Charts() {
   loader={<div>Loading Chart</div>}
   data={[
     [
-      { type: 'string', label: 'Task ID' },
-      { type: 'string', label: 'Task Name' },
+      { type: 'string', label: 'Project ID' },
+      { type: 'string', label: 'Project Name' },
       { type: 'date', label: 'Start Date' },
       { type: 'date', label: 'End Date' },
       { type: 'number', label: 'Duration' },
