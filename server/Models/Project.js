@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const Task = require('./Task')
+const Task = require('./Task');
+const User = require('./User')
 const { Schema } = mongoose;
 
 
@@ -26,6 +27,7 @@ const projectSchema = new Schema({
         type:Enumerator,
         required:true
     },
+    owner: User,
     tasks:[Task]
   });
 
