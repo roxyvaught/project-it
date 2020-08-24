@@ -59,7 +59,7 @@ const typeDefs = gql`
     addUser(userName: String!, email: String!, password: String!): Auth
     updateUser(userName: String,  email: String, password: String): User
     addProject(name: String!, description:String!, startDate:String!, endDate:String!, status:enum, owner ): Project
-    updateProject : 
+    updateProject: 
     addTask
     updateTask
     addComment
