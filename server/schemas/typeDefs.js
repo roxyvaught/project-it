@@ -24,7 +24,7 @@ const typeDefs = gql`
     _id: ID
     name: String
     description: String
-    createDate: String
+    startDate: String
     endDate: String
     status: Status
     users: [User]
@@ -57,12 +57,11 @@ const typeDefs = gql`
 
   type Mutation {
     addUser(userName: String!, email: String!, password: String!): Auth
-    updateUser(userName: String,  email: String, password: String): User
-    addProject(name: String!, description:String!, startDate:String!, endDate:String!, status:Status, owner: String!): Project
-    updateProject (name: String, description:String, startDate:String, endDate:String, status:Status, owner: String): Project
-    addTask(_id: ID!,name:String!, description: String!,startDate:String!, endDate:String!,user:ID!, status: Status): Status
-    updateTask(_id: ID,name:String, description: String,startDate:String, endDate:String,user:ID, status: Status):Status
-    addComment(_id:ID,comment:String!): Comment
+    addProject(name: String!, description:String!, startDate:String!, endDate:String!, status:Status, owner: ID!): Project
+    updateProject (_id: ID, name: String, description:String, startDate:String, endDate:String, status:Status, owner: ID): Project
+    addTask(_id: ID!,name:String!, description: String!,startDate:String!, endDate:String!,owner:ID!, status: Status): Status
+    updateTask(_id: ID!,name:String, description: String,startDate:String, endDate:String,owner:ID, status: Status):Status
+    addComment(_id:ID!,comment:String!, user: String!): Comment
     login(email: String!, password: String!): Auth
   }
 `;
