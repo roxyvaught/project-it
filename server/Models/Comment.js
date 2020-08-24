@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('./User');
+//const User = require('./User');
 
 const { Schema } = mongoose;
 
@@ -14,7 +14,11 @@ const commentSchema = new Schema({
       required: true,
       unique: true
     },
-    user: User,
+    user: {
+      type: String,
+      required:true,
+      trim:true
+    }
 });
 
 const Comment = mongoose.model('Comment', commentSchema);

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Task = require('./Task');
-const User = require('./User')
+//const Task = require('./Task');
+//const User = require('./User')
 const { Schema } = mongoose;
 
 
@@ -24,11 +24,14 @@ const projectSchema = new Schema({
         required: true
     },
     status: {
-        type:Enumerator,
+        type:String,
         required:true
     },
-    owner: User,
-    tasks:[Task]
+    owner: {
+      type:String,
+      required:true
+    },
+    tasks:[]
   });
 
 const Project = mongoose.model('Project', projectSchema);
