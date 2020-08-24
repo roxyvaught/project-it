@@ -16,6 +16,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 import { mainListItems } from '../ListItems';
+import { secondaryListItems } from '../ListItems';
 import Chart from '../Chart';
 import Projects from '../LatestProject';
 import Team from '../Team';
@@ -159,7 +160,7 @@ export default function Dashboard() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-      {/* <List>{secondaryListItems}</List> */}
+      <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
