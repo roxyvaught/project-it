@@ -1,150 +1,174 @@
 const { AuthenticationError } = require('apollo-server-express');
+
 const { User, Project, Task, Comment } = require('../models');
+
 const { signToken } = require('../utils/auth');
+//const { findOneAndUpdate } = require('../models/User');
+
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
-// const resolvers = {
-//   Query: {
-//     categories: async () => {
-//       return await Category.find();
-//     },
-//     products: async (parent, { category, name }) => {
-//       const params = {};
-
-//       if (category) {
-//         params.category = category;
-//       }
-
-//       if (name) {
-//         params.name = {
-//           $regex: name
-//         };
-//       }
-
-//       return await Product.find(params).populate('category');
-//     },
-//     product: async (parent, { _id }) => {
-//       return await Product.findById(_id).populate('category');
-//     },
-//     user: async (parent, args, context) => {
-//       if (context.user) {
-//         const user = await User.findById(context.user._id).populate({
-//           path: 'orders.products',
-//           populate: 'category'
-//         });
-
-//         user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
-
-//         return user;
-//       }
-
-//       throw new AuthenticationError('Not logged in');
-//     },
-//     order: async (parent, { _id }, context) => {
-//       if (context.user) {
-//         const user = await User.findById(context.user._id).populate({
-//           path: 'orders.products',
-//           populate: 'category'
-//         });
-
-//         return user.orders.id(_id);
-//       }
-
-//       throw new AuthenticationError('Not logged in');
-//     },
-//     checkout: async (parent, args, context) => {
-//       const url = new URL(context.headers.referer).origin;
-//       const order = new Order({ products: args.products });
-//       const { products } = await order.populate('products').execPopulate();
-
-//       const line_items = [];
-
-//       for (let i = 0; i < products.length; i++) {
-//         // generate product id
-//         const product = await stripe.products.create({
-//           name: products[i].name,
-//           description: products[i].description,
-//           images: [`${url}/images/${products[i].image}`]
-//         });
-
-//         // generate price id using the product id
-//         const price = await stripe.prices.create({
-//           product: product.id,
-//           unit_amount: products[i].price * 100,
-//           currency: 'usd'
-//         });
-
-//         // add price id to the line items array
-//         line_items.push({
-//           price: price.id,
-//           quantity: 1
-//         });
-//       }
-
-//       const session = await stripe.checkout.sessions.create({
-//         payment_method_types: ['card'],
-//         line_items,
-//         mode: 'payment',
-//         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
-//         cancel_url: `${url}/`
-//       });
-
-//       return { session: session.id };
-//     }
-//   },
-//   Mutation: {
-//     addUser: async (parent, args) => {
-//       const user = await User.create(args);
-//       const token = signToken(user);
-
-//       return { token, user };
-//     },
-//     addOrder: async (parent, { products }, context) => {
-//       console.log(context);
-//       if (context.user) {
-//         const order = new Order({ products });
-
-//         await User.findByIdAndUpdate(context.user._id, { $push: { orders: order } });
-
-//         return order;
-//       }
-
-//       throw new AuthenticationError('Not logged in');
-//     },
-//     updateUser: async (parent, args, context) => {
-//       if (context.user) {
-//         return await User.findByIdAndUpdate(context.user._id, args, { new: true });
-//       }
-
-//       throw new AuthenticationError('Not logged in');
-//     },
-//     updateProduct: async (parent, { _id, quantity }) => {
-//       const decrement = Math.abs(quantity) * -1;
-
-//       return await Product.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
-//     },
-//     login: async (parent, { email, password }) => {
-//       const user = await User.findOne({ email });
-
-//       if (!user) {
-//         throw new AuthenticationError('Incorrect credentials');
-//       }
-
-//       const correctPw = await user.isCorrectPassword(password);
-
-//       if (!correctPw) {
-//         throw new AuthenticationError('Incorrect credentials');
-//       }
-
-//       const token = signToken(user);
-
-//       return { token, user };
-//     }
-//   }
-// };
 
 const resolvers = {
 
-};
+    Query: {
+        projects: async () => {
+            return await Project.find();
+        },
+        project: async (parent, {_id}) => {
+            return await Project.findById(_id);
+        },
+        user: async (parent, {_id}) =>{
+            return await User.findById(_id);
+        },
+        tasks: async (parent,{_id}) =>{
+            const projectTasks = await Project.findById(_id);
+            return projectTasks.tasks;
+        },
+        comments: async (parent,args) =>{
+            const taskComment = await Task.findById(_id);
+            return taskComment.comments;
+        }
+    },
+    Mutation: {
+        addUser: async (parent, args) => {
+            const user = await User.create(args);
+            const token = signToken(user);
+            return { token, user };
+        },
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
+      
+            if (!user) {
+              throw new AuthenticationError('Incorrect credentials');
+            }
+            const correctPw = await user.isCorrectPassword(password);
+      
+            if (!correctPw) {
+              throw new AuthenticationError('Incorrect credentials');
+            }
+            const token = signToken(user);
+      
+            return { token, user };
+        },
+        addProject: async (parent, args) =>{
+            return await Project.create(args)
 
+        },
+        updateProject: async (parent, args, context) =>{
+            
+            if (context.name){
+                const updateProjName = await Project.findOneAndUpdate(
+                    {_id: context.id},
+                    {name:context.name}
+                )
+                return updateProjName;
+            }; 
+            if (context.description){
+                const updateProjDesc = await Project.findOneAndUpdate(
+                    {_id: context.id},
+                    {description:context.description}
+                )
+                return updateProjDesc;
+            };
+            if (context.startDate){
+                const updateProjSDate = await Project.findOneAndUpdate(
+                    {_id: context.id},
+                    {startDate:context.startDate}
+                )
+                return pdateProjSDate;
+            };
+            if (context.endDate){
+                const updateProjEDate = await Project.findOneAndUpdate(
+                    {_id: context.id},
+                    {endDate:context.endDate}
+                )
+                return updateProjEDate;
+            };
+            if (context.status){
+                const updateProjStatus = await Project.findOneAndUpdate(
+                    {_id: context.id},
+                    {status:context.status}
+                )
+                return pdateProjStatus;
+            };
+            if (context.owner){
+                const updateProjOwner = await Project.findOneAndUpdate(
+                    {_id: context.id},
+                    {owner:context.owner}
+                )
+                return updateProjOwner;
+            };
+        },
+        addTask: async (parent, args) =>{
+            const projId = args.id;
+            const newTask = await Task.create({name: args.name},
+                {description: args.description},
+                {startDate: args.startDate},
+                {endDate: args.endDate}, 
+                {status: args.status},
+                {owner: args.owner}
+                );
+            const updatedProj = await Project.findOneAndUpdate(
+                {_id:projId},
+                { $push: { tasks: {newTask } } },
+            )
+            return updatedProj;
+        },
+        updateTask: async (parent, args,context) =>{
+            if (context.name){
+                const updateTaskName = await Task.findOneAndUpdate(
+                    {_id: context.id},
+                    {name:context.name}
+                )
+                return updatedTaskName;
+            }; 
+            if (context.description){
+                const updateTaskDesc = await Task.findOneAndUpdate(
+                    {_id: context.id},
+                    {description:context.description}
+                )
+                return updateTaskDesc;
+            };
+            if (context.startDate){
+                const updateTaskSDate = await Task.findOneAndUpdate(
+                    {_id: context.id},
+                    {startDate:context.startDate}
+                )
+                return updateTaskSDate;
+            };
+            if (context.endDate){
+                const updateTaskEDate = await Task.findOneAndUpdate(
+                    {_id: context.id},
+                    {endDate:context.endDate}
+                )
+                return updateTaskEDate;
+            };
+            if (context.status){
+                const updateTaskStatus = await Task.findOneAndUpdate(
+                    {_id: context.id},
+                    {status:context.status}
+                )
+                return updateTaskStatus;
+            };
+            if (context.owner){
+                const updateTaskOwner = await Task.findOneAndUpdate(
+                    {_id: context.id},
+                    {owner:context.owner}
+                )
+                return updateTaskOwner;
+            }
+        },
+        addComment: async (parent, args) =>{
+            const taskId = args.id;
+            const newComment = await Comment.create({comment: args.comment},
+                {user: args.user}
+                );
+            const updatedTask = await Task.findOneAndUpdate(
+                {_id:taskId},
+                { $push: { comments: {newComment} } },
+            );
+            return updatedTask;
+        }
+    }
+}
 module.exports = resolvers;
