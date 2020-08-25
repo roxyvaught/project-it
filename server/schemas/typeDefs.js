@@ -7,7 +7,7 @@ const typeDefs = gql`
     email: String
   }
 
-  type enum {
+  enum Status {
     NOT_STARTED
     IN_PROGRESS
     COMPLETED
@@ -24,9 +24,9 @@ const typeDefs = gql`
     _id: ID
     name: String
     description: String
-    createDate: String
+    startDate: String
     endDate: String
-    status: enum
+    status: Status
     users: [User]
     comments: [Comment]
   }
@@ -37,7 +37,7 @@ const typeDefs = gql`
     description: String
     startDate: String
     endDate: String
-    status: enum
+    status: Status
     tasks:[Task]
     owner: User
   }
@@ -57,12 +57,11 @@ const typeDefs = gql`
 
   type Mutation {
     addUser(userName: String!, email: String!, password: String!): Auth
-    updateUser(userName: String,  email: String, password: String): User
-    addProject(name: String!, description:String!, startDate:String!, endDate:String!, status:enum, owner ): Project
-    updateProject : 
-    addTask
-    updateTask
-    addComment
+    addProject(name: String!, description:String!, startDate:String!, endDate:String!, status:Status, owner: ID!): Project
+    updateProject (_id: ID, name: String, description:String, startDate:String, endDate:String, status:Status, owner: ID): Project
+    addTask(_id: ID!,name:String!, description: String!,startDate:String!, endDate:String!,owner:ID!, status: Status): Status
+    updateTask(_id: ID!,name:String, description: String,startDate:String, endDate:String,owner:ID, status: Status):Status
+    addComment(_id:ID!,comment:String!, user: String!): Comment
     login(email: String!, password: String!): Auth
   }
 `;
