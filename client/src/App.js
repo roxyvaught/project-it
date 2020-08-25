@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Tasks from './pages/Tasks';
-//import CreateProject from './pages/createProject';
+import CreateProject from './pages/CreateProject';
 
 // add these two library import statements
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -41,6 +41,7 @@ function App() {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/tasks" component={Tasks} />
+            <Route exact path="/CreateProject" component={CreateProject} />
             
           </Switch>
           <Footer />
