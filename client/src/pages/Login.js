@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { LOGIN } from '../utils/mutations';
+import Auth from '../utils/auth';
+import { useMutation } from '@apollo/react-hooks';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,8 +37,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login() {
+export default function Login(props) {
   const classes = useStyles();
+
+  // brent
+  const [formState, setFormState] = useState({ email: '', password: '' })
+  const [login, { error }] = useMutation(LOGIN);
+
+  const handleFormSubmit = async event => {
+    event.preventDefault();
+    try {
+      const mutationResponse = await login({ variables: { email: formState.email, password: formState.password } });
+      const token = mutationResponse.data.login.token;
+      Auth.login(token);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleChange = event => {
+    const { name, value } = event.target;
+    setFormState({
+      ...formState,
+      [name]: value
+    });
+  };
+  // end brent
 
   return (
     <Container component="main" maxWidth="xs">
@@ -48,7 +75,7 @@ export default function Login() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleFormSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -59,6 +86,7 @@ export default function Login() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={handleChange}
           />
           <TextField
             variant="outlined"
@@ -70,7 +98,13 @@ export default function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={handleChange}
           />
+          {
+            error ? <div>
+              <p className="error-text">The provided credentials are incorrect</p>
+            </div> : null
+          }
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"

@@ -12,6 +12,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "apollo-boost": "^0.4.9",
+    "apollo-link-context": "^1.0.20",
     "chartist": "^0.11.4",
     "classnames": "^2.2.6",
     "date-fn": "0.0.2",

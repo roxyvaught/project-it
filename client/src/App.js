@@ -1,26 +1,25 @@
 import React from 'react';
-import Header from './components/Header';
-import Footer from './components/Footer';
+// add these two library import statements
+import { ApolloProvider } from '@apollo/react-hooks';
+import ApolloClient from 'apollo-boost'; 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Tasks from './pages/Tasks';
 import CreateProject from './pages/CreateProject';
-
-// add these two library import statements
-import { ApolloProvider } from '@apollo/react-hooks';
-import ApolloClient from 'apollo-boost'; 
-
+import Header from './components/Header';
+import Footer from './components/Footer';
 import Dashboard from './components/Dashboard';
 
 // Added by Brent 8/25/2020
 import { StoreProvider } from './utils/GlobalState';
+// end brent
 
 import './App.css';
 
 
 const client = new ApolloClient({
-  request: operation => {
+  request: (operation) => {
     const token = localStorage.getItem('id_token');
 
     operation.setContext({
@@ -38,8 +37,8 @@ function App() {
       <Router>
         <div className="flex-column justify-flex-start min-100-vh">
           <StoreProvider>
-              <Header />
-              <div className="container">
+            <Header />
+            <div className="container">
               <Switch>
                 <Route exact path="/" component={Dashboard} />
                 <Route exact path="/login" component={Login} />
