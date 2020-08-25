@@ -13,6 +13,9 @@ import ApolloClient from 'apollo-boost';
 
 import Dashboard from './components/Dashboard';
 
+// Added by Brent 8/25/2020
+import { StoreProvider } from './utils/GlobalState';
+
 import './App.css';
 
 
@@ -34,18 +37,20 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <div className="flex-column justify-flex-start min-100-vh">
-          <Header />
-          <div className="container">
-          <Switch>
-            <Route exact path="/" component={Dashboard} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={Signup} />
-            <Route exact path="/tasks" component={Tasks} />
-            <Route exact path="/CreateProject" component={CreateProject} />
-            
-          </Switch>
-          <Footer />
-        </div>
+          <StoreProvider>
+              <Header />
+              <div className="container">
+              <Switch>
+                <Route exact path="/" component={Dashboard} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/signup" component={Signup} />
+                <Route exact path="/tasks" component={Tasks} />
+                <Route exact path="/CreateProject" component={CreateProject} />
+                
+              </Switch>
+              <Footer />
+            </div>
+          </StoreProvider>
         </div>
       </Router>
     </ApolloProvider>
