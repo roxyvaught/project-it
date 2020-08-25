@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Tasks from './pages/Tasks';
+//import CreateProject from './pages/createProject';
 
 // add these two library import statements
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -13,6 +14,7 @@ import ApolloClient from 'apollo-boost';
 import Dashboard from './components/Dashboard';
 
 import './App.css';
+
 
 const client = new ApolloClient({
   request: operation => {
@@ -39,6 +41,7 @@ function App() {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/tasks" component={Tasks} />
+            
           </Switch>
           <Footer />
         </div>
