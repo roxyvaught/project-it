@@ -16,6 +16,7 @@ const resolvers = {
             return await Project.findById(_id);
         },
         user: async (parent, {_id}) =>{
+            console.log('user hit');
             return await User.findById(_id);
         },
         tasks: async (parent,{_id}) =>{
@@ -30,8 +31,10 @@ const resolvers = {
     Mutation: {
         addUser: async (parent, args) => {
             const user = await User.create(args);
+            console.log (user);
             const token = signToken(user);
-            return { token, user };
+            console.log (token);
+            return { token, user }; //return { token, user };
         },
         login: async (parent, { email, password }) => {
             const user = await User.findOne({ email });
