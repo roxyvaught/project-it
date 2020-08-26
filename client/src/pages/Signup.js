@@ -1,4 +1,3 @@
-import Auth from '../utils/auth';
 import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -13,8 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-
 import { useMutation } from '@apollo/react-hooks';
+import Auth from '../utils/auth';
 import { ADD_USER } from '../utils/mutations';
 
 
@@ -38,37 +37,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
-  const [formState, setFormState] = useState({ username: '', email: '', password: '' });
-  const [addUser, { error }] = useMutation(ADD_USER);
-
+export default function SignUp(props) {
   const classes = useStyles();
-  const handleChange = (event) => {
-  const { name, value } = event.target;
 
-  setFormState({
-    ...formState,
-    [name]: value,
-  });
-};
+  // brent
+  const [ formState, setFormState] = useState({ email: '', password: ''});
+  const [addUser] = useMutation(ADD_USER);
 
-// submit form
-// submit form (notice the async!)
-const handleFormSubmit = async event => {
-event.preventDefault();
+  const handleFormSubmit = async event => {
+    event.preventDefault();
+    const mutationResponse = await addUser({
+      variables: {
+        email: formState.email, password: formState.password
+      }
+    });
+    const token = mutationResponse.data.addUser.token;
+    Auth.login(token);
+  };
 
-// use try/catch instead of promises to handle errors
-try {
-  const { data } = await addUser({
-    variables: { ...formState }
-  });
-
-  Auth.login(data.addUser.token);
-} catch (e) {
-  console.error(e);
-}
-};
-
+  const handleChange = event => {
+    const { name, value } = event.target;
+    setFormState({
+      ...formState,
+      [name]: value
+    });
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -80,24 +73,21 @@ try {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} onSubmit={handleFormSubmit}>
+        <form className={classes.form} noValidate onSubmit={handleFormSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                autoComplete="name"
-                name="username"
-                type='username'
+                autoComplete="username"
+                name="fusername"
                 variant="outlined"
                 required
                 fullWidth
                 id="username"
                 label="Username"
                 autoFocus
-                value={formState.username}
                 onChange={handleChange}
               />
             </Grid>
-            
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -106,9 +96,7 @@ try {
                 id="email"
                 label="Email Address"
                 name="email"
-                type="email"
                 autoComplete="email"
-                value={formState.email}
                 onChange={handleChange}
               />
             </Grid>
@@ -122,7 +110,6 @@ try {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                value={formState.password}
                 onChange={handleChange}
               />
             </Grid>
@@ -150,7 +137,6 @@ try {
             </Grid>
           </Grid>
         </form>
-        {error && <div>Sign up failed</div>}
       </div>
       <Box mt={23}>
       </Box>

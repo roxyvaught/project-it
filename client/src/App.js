@@ -1,6 +1,5 @@
 import React from 'react';
-import Header from './components/Header';
-import Footer from './components/Footer';
+
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -13,25 +12,28 @@ import NoMatch from './pages/NoMatch';
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost'; 
 
+import Header from './components/Header';
+import Footer from './components/Footer';
 import Dashboard from './components/Dashboard';
 
 // Added by Brent 8/25/2020
 import { StoreProvider } from './utils/GlobalState';
+// end brent
 
 import './App.css';
 
 
 const client = new ApolloClient({
-  request: operation => {
+  request: (operation) => {
     const token = localStorage.getItem('id_token');
-
     operation.setContext({
-      headers: {
+        headers: {
         authorization: token ? `Bearer ${token}` : ''
       }
     });
   },
-  uri: '/graphql'
+  //uri: '/graphql'
+  uri: 'http://localhost:3001/graphql'
 });
 
 function App() {
@@ -40,8 +42,8 @@ function App() {
       <Router>
         <div className="flex-column justify-flex-start min-100-vh">
           <StoreProvider>
-              <Header />
-              <div className="container">
+            <Header />
+            <div className="container">
               <Switch>
                 <Route exact path="/" component={Dashboard} />
                 <Route exact path="/login" component={Login} />
