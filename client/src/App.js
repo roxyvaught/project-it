@@ -6,6 +6,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Tasks from './pages/Tasks';
 import CreateProject from './pages/CreateProject';
+import TeamPage from './pages/TeamPage';
+import NoMatch from './pages/NoMatch';
 
 // add these two library import statements
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -46,7 +48,9 @@ function App() {
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/tasks" component={Tasks} />
                 <Route exact path="/CreateProject" component={CreateProject} />
-                
+                <Route exact path="/teampage" component={TeamPage} />
+
+                <Route component={NoMatch} />
               </Switch>
               <Footer />
             </div>

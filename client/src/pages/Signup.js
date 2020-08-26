@@ -1,4 +1,5 @@
-import React from 'react';
+import Auth from '../utils/auth';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +13,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+
+import { useMutation } from '@apollo/react-hooks';
+import { ADD_USER } from '../utils/mutations';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +39,36 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
+  const [formState, setFormState] = useState({ username: '', email: '', password: '' });
+  const [addUser, { error }] = useMutation(ADD_USER);
+
   const classes = useStyles();
+  const handleChange = (event) => {
+  const { name, value } = event.target;
+
+  setFormState({
+    ...formState,
+    [name]: value,
+  });
+};
+
+// submit form
+// submit form (notice the async!)
+const handleFormSubmit = async event => {
+event.preventDefault();
+
+// use try/catch instead of promises to handle errors
+try {
+  const { data } = await addUser({
+    variables: { ...formState }
+  });
+
+  Auth.login(data.addUser.token);
+} catch (e) {
+  console.error(e);
+}
+};
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -47,31 +80,24 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={handleFormSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
-                autoComplete="fname"
-                name="firstName"
+                autoComplete="name"
+                name="username"
+                type='username'
                 variant="outlined"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                id="username"
+                label="Username"
                 autoFocus
+                value={formState.username}
+                onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
-              />
-            </Grid>
+            
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -80,7 +106,10 @@ export default function SignUp() {
                 id="email"
                 label="Email Address"
                 name="email"
+                type="email"
                 autoComplete="email"
+                value={formState.email}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -93,6 +122,8 @@ export default function SignUp() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={formState.password}
+                onChange={handleChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -119,6 +150,7 @@ export default function SignUp() {
             </Grid>
           </Grid>
         </form>
+        {error && <div>Sign up failed</div>}
       </div>
       <Box mt={23}>
       </Box>

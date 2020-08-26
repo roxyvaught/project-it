@@ -23,10 +23,11 @@ import { mainListItems } from '../components/ListItems';
 
 import Logo from '../assets/images/Logo.png'
 import Kanban from '../components/Tasks';
+import ProjectSelect from '../components/ProjectSelect';
 
 //import Projects from '../LatestProject';
 //import Team from '../Team';
-/*import { Link } from 'react-router-dom';*/
+import { Link } from 'react-router-dom';
 // import Paper from '@material-ui/core/Paper';
 
 
@@ -138,8 +139,9 @@ export default function DashboardTask() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            
-            <img height="65px" src={Logo} alt="project-it"/>
+          <div>
+            <Link to="/"><img height="65px" src={Logo} alt="project-it"/></Link>
+            </div>
           </Typography>
           <Tooltip title="Login" interactive><IconButton href="/login"><FaceIcon fontSize="large" style={{ color: blueGrey[50] }} ></FaceIcon></IconButton></Tooltip>
           
@@ -167,6 +169,7 @@ export default function DashboardTask() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="xl" className={classes.container}>
           <Grid>
+            <ProjectSelect />
             {/* Kanban Board*/}
             <Grid>
                 <Kanban />

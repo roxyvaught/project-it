@@ -15,15 +15,25 @@ export const QUERY_ALL_PROJECTS = gql`
             endDate
             status
             users {
-                userName
+                username
             }
             comments {
                 comment
                 createDate
                 users {
-                    userName
+                    username
                 }
             }
         }
     }
+`;
+
+export const QUERY_USER = gql`
+  query user($username: String!) {
+    user(username: $username) {
+      _id
+      username
+      email
+    }
+  }
 `;
