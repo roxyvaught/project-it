@@ -51,7 +51,7 @@ const typeDefs = gql`
   type Query {
     projects:[Project]
     project(_id: ID!):Project
-    user: [User]
+    user: User
     tasks(project: ID): [Task]
     comments(task: ID): [Comment]
     users: [User]
@@ -59,7 +59,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addUser(username: String!, email: String!, password: String!):  User,
+    addUser(username: String!, email: String!, password: String!):  Auth,
     addProject(name: String!, description:String!, startDate:String!, endDate:String!, status:Status, owner: ID!): Project
     updateProject (_id: ID, name: String, description:String, startDate:String, endDate:String, status:Status, owner: ID): Project
     addTask(_id: ID!,name:String!, description: String!,startDate:String!, endDate:String!,owner:ID!, status: Status): Status

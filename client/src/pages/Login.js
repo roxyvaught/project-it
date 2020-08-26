@@ -41,14 +41,21 @@ export default function Login(props) {
   const classes = useStyles();
 
   // brent
-  const [formState, setFormState] = useState({ email: '', password: '' })
+  const [formState, setFormState] = useState({ email: '', password: '' });
   const [login, { error }] = useMutation(LOGIN);
+  //const email = "tester22@test.com";
+  //const password = "test12345";
 
   const handleFormSubmit = async event => {
     event.preventDefault();
+    console.log('start handleFormSubmit');
     try {
+      console.log("start try");
       const mutationResponse = await login({ variables: { email: formState.email, password: formState.password } });
+      //const mutationResponse = await login({ variables: {email: email, password: password}});
+      console.log(mutationResponse);
       const token = mutationResponse.data.login.token;
+      console.log(token);
       Auth.login(token);
     } catch (e) {
       console.log(e);

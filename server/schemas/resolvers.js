@@ -16,9 +16,9 @@ const resolvers = {
             return await Project.findById(_id);
         },
         //user: async (parent, {_id}) =>{
-        user: async () =>{
+        user: async (parent, {_id}) =>{
         //    return await User.findById(_id);
-            return await User.find();
+            return await User.findById(_id);
         },
         tasks: async (parent,{_id}) =>{
             const projectTasks = await Project.findById(_id);
