@@ -21,14 +21,14 @@ import './App.css';
 const client = new ApolloClient({
   request: (operation) => {
     const token = localStorage.getItem('id_token');
-
     operation.setContext({
-      headers: {
+        headers: {
         authorization: token ? `Bearer ${token}` : ''
       }
     });
   },
   uri: '/graphql'
+  //uri: 'http://localhost:3001/graphql'
 });
 
 function App() {

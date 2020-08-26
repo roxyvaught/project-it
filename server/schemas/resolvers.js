@@ -15,8 +15,10 @@ const resolvers = {
         project: async (parent, {_id}) => {
             return await Project.findById(_id);
         },
-        user: async (parent, {_id}) =>{
-            return await User.findById(_id);
+        //user: async (parent, {_id}) =>{
+        user: async () =>{
+        //    return await User.findById(_id);
+            return await User.find();
         },
         tasks: async (parent,{_id}) =>{
             const projectTasks = await Project.findById(_id);
@@ -25,13 +27,20 @@ const resolvers = {
         comments: async (parent,args) =>{
             const taskComment = await Task.findById(_id);
             return taskComment.comments;
+        },
+        helloWorld: () => {
+            return 'Hello World!';
         }
     },
     Mutation: {
         addUser: async (parent, args) => {
             const user = await User.create(args);
             const token = signToken(user);
+            console.log(user);
+            console.log(token);
             return { token, user };
+            //console.log(user);
+            //return ( user );
         },
         login: async (parent, { email, password }) => {
             const user = await User.findOne({ email });

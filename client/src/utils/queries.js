@@ -17,7 +17,7 @@ export const QUERY_ALL_PROJECTS = gql`
             status
             users [
                 _id
-                userName
+                username
                 email
             ]
             comments [
@@ -49,7 +49,7 @@ export const QUERY_PROJECT = gql`
                 status
                 users [
                     _id
-                    userName
+                    username
                     email
                 ]
                 comments [
@@ -68,7 +68,7 @@ export const QUERY_USER = gql`
     {
         user {
             _id
-            userName
+            username
             email
         }
     }
