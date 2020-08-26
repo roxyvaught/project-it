@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const User = require('./User');
-const Comment = require('./Comment')
+//const Task = require('./Task');
+//const User = require('./User')
 const { Schema } = mongoose;
 
 
-const taskSchema = new Schema({
+const projectSchema = new Schema({
     name: {
       type: String,
       required: true,
@@ -24,13 +24,16 @@ const taskSchema = new Schema({
         required: true
     },
     status: {
-        type:Enumerator,
+        type:String,
         required:true
     },
-    user:[User],
-    comment:[Comment]
+    owner: {
+      type:String,
+      required:true
+    },
+    tasks:[]
   });
 
-const Task = mongoose.model('Task', taskSchema);
+const Project = mongoose.model('Project', projectSchema);
 
 module.exports = Project;

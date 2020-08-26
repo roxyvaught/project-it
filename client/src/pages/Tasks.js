@@ -11,22 +11,24 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-
-import { mainListItems } from '../ListItems';
-import { secondaryListItems } from '../ListItems';
-import Chart from '../Chart';
-import Projects from '../LatestProject';
-import Team from '../Team';
-/*import { Link } from 'react-router-dom';*/
-import Logo from '../../assets/images/Logo.png'
-import { Tooltip } from '@material-ui/core';
-
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import FaceIcon from '@material-ui/icons/Face';
 import { blueGrey } from '@material-ui/core/colors';
+import MenuIcon from '@material-ui/icons/Menu';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import { Tooltip } from '@material-ui/core';
+
+import { mainListItems } from '../components/ListItems';
+
+
+import Logo from '../assets/images/Logo.png'
+import Kanban from '../components/Tasks';
+import ProjectSelect from '../components/ProjectSelect';
+
+//import Projects from '../LatestProject';
+//import Team from '../Team';
+import { Link } from 'react-router-dom';
+// import Paper from '@material-ui/core/Paper';
 
 
 const drawerWidth = 240;
@@ -111,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+export default function DashboardTask() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
@@ -120,7 +122,7 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+ // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>
@@ -137,8 +139,9 @@ export default function Dashboard() {
             <MenuIcon />
           </IconButton>
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            
-            <img height="65px" src={Logo} alt="project-it"/>
+          <div>
+            <Link to="/"><img height="65px" src={Logo} alt="project-it"/></Link>
+            </div>
           </Typography>
           <Tooltip title="Login" interactive><IconButton href="/login"><FaceIcon fontSize="large" style={{ color: blueGrey[50] }} ></FaceIcon></IconButton></Tooltip>
           
@@ -160,32 +163,18 @@ export default function Dashboard() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-      <List>{secondaryListItems}</List>
+      {/* <List>{secondaryListItems}</List> */}
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={4}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <Chart />
-              </Paper>
-            </Grid>
-            {/* Recent Projects */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <Projects />
-              </Paper>
-            </Grid>
-            {/* Team */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <Team />
-              </Paper>
+        <Container maxWidth="xl" className={classes.container}>
+          <Grid>
+            <ProjectSelect />
+            {/* Kanban Board*/}
+            <Grid>
+                <Kanban />
             </Grid>
           </Grid>
-       
         </Container>
       </main>
     </div>

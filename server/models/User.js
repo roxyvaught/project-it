@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 
 const userSchema = new Schema({
-    userName: {
+    username: {
       type: String,
       required: true,
       trim: true
@@ -19,6 +19,15 @@ const userSchema = new Schema({
       required: true,
       minlength: 5
     }
+  });
+
+  userSchema.pre('save', async function(next) {
+    if (this.isNew || this.isModified('password')) {
+      const saltRounds = 10;
+      this.password = await bcrypt.hash(this.password, saltRounds);
+    }
+  
+    next();
   });
 
   userSchema.methods.isCorrectPassword = async function(password) {

@@ -1,37 +1,46 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-  type Checkout {
-    session: ID
-  }
-
-  type Category {
+  type User {
     _id: ID
-    name: String
+    username: String
+    email: String
+    password: String
   }
 
-  type Product {
+  enum Status {
+    NOT_STARTED
+    IN_PROGRESS
+    COMPLETED
+  }
+
+  type Comment {
+    _id: ID
+    comment: String
+    createDate: String
+    user: User
+  }
+
+  type Task {
     _id: ID
     name: String
     description: String
-    image: String
-    quantity: Int
-    price: Float
-    category: Category
+    startDate: String
+    endDate: String
+    status: Status
+    users: [User]
+    comments: [Comment]
   }
 
-  type Order {
+  type Project {
     _id: ID
-    purchaseDate: String
-    products: [Product]
-  }
-
-  type User {
-    _id: ID
-    firstName: String
-    lastName: String
-    email: String
-    orders: [Order]
+    name: String
+    description: String
+    startDate: String
+    endDate: String
+    status: Status
+    tasks:[Task]
+    owner: User
   }
 
   type Auth {
@@ -40,19 +49,22 @@ const typeDefs = gql`
   }
 
   type Query {
-    categories: [Category]
-    products(category: ID, name: String): [Product]
-    product(_id: ID!): Product
+    projects:[Project]
+    project(_id: ID!):Project
     user: User
-    order(_id: ID!): Order
-    checkout(products: [ID]!): Checkout
+    tasks(project: ID): [Task]
+    comments(task: ID): [Comment]
+    users: [User]
+    helloWorld: String
   }
 
   type Mutation {
-    addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
-    addOrder(products: [ID]!): Order
-    updateUser(firstName: String, lastName: String, email: String, password: String): User
-    updateProduct(_id: ID!, quantity: Int!): Product
+    addUser(username: String!, email: String!, password: String!):  Auth,
+    addProject(name: String!, description:String!, startDate:String!, endDate:String!, status:Status, owner: ID!): Project
+    updateProject (_id: ID, name: String, description:String, startDate:String, endDate:String, status:Status, owner: ID): Project
+    addTask(_id: ID!,name:String!, description: String!,startDate:String!, endDate:String!,owner:ID!, status: Status): Status
+    updateTask(_id: ID!,name:String, description: String,startDate:String, endDate:String,owner:ID, status: Status):Status
+    addComment(_id:ID!,comment:String!, user: String!): Comment
     login(email: String!, password: String!): Auth
   }
 `;
