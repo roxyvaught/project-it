@@ -3,8 +3,9 @@ const { gql } = require('apollo-server-express');
 const typeDefs = gql`
   type User {
     _id: ID
-    userName: String
+    username: String
     email: String
+    password: String
   }
 
   enum Status {
@@ -53,10 +54,12 @@ const typeDefs = gql`
     user: User
     tasks(project: ID): [Task]
     comments(task: ID): [Comment]
+    users: [User]
+    helloWorld: String
   }
 
   type Mutation {
-    addUser(userName: String!, email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!):  Auth,
     addProject(name: String!, description:String!, startDate:String!, endDate:String!, status:Status, owner: ID!): Project
     updateProject (_id: ID, name: String, description:String, startDate:String, endDate:String, status:Status, owner: ID): Project
     addTask(_id: ID!,name:String!, description: String!,startDate:String!, endDate:String!,owner:ID!, status: Status): Status
