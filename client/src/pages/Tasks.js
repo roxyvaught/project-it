@@ -17,7 +17,7 @@ import { blueGrey } from '@material-ui/core/colors';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { Tooltip } from '@material-ui/core';
-
+import Button from "../components/CustomButtons/Button.js";
 import { mainListItems } from '../components/ListItems';
 
 
@@ -170,6 +170,7 @@ export default function DashboardTask() {
         <Container maxWidth="xl" className={classes.container}>
           <Grid>
             <ProjectSelect />
+            <Button color="warning" a href="/addtasks">Add Task</Button>
             {/* Kanban Board*/}
             <Grid>
                 <Kanban />
