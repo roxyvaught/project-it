@@ -15,6 +15,7 @@ import ApolloClient from 'apollo-boost';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Dashboard from './components/Dashboard';
+import AddTasks from './pages/AddTasks';
 
 // Added by Brent 8/25/2020
 import { StoreProvider } from './utils/GlobalState';
@@ -51,6 +52,7 @@ function App() {
                 <Route exact path="/tasks" component={Tasks} />
                 <Route exact path="/CreateProject" component={CreateProject} />
                 <Route exact path="/teampage" component={TeamPage} />
+                <Route exact path="/addtasks" component={AddTasks} />
 
                 <Route component={NoMatch} />
               </Switch>
