@@ -8,9 +8,11 @@ import CreateProject from './pages/CreateProject';
 import TeamPage from './pages/TeamPage';
 import NoMatch from './pages/NoMatch';
 
+
 // add these two library import statements
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost'; 
+//import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 import Header from './components/Header';
 import Footer from './components/Footer';

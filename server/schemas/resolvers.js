@@ -39,8 +39,6 @@ const resolvers = {
             console.log(user);
             console.log(token);
             return { token, user };
-            //console.log(user);
-            //return ( user );
         },
         login: async (parent, { email, password }) => {
             const user = await User.findOne({ email });

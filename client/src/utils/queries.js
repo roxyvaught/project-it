@@ -64,15 +64,6 @@ export const QUERY_PROJECT = gql`
     }
 `;
 
-export const QUERY_USER = gql`
-    {
-        user {
-            _id
-            username
-            email
-        }
-    }
-`;
 
 export const QUERY_USER = gql`
   query user($username: String!) {
