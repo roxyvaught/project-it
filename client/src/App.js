@@ -34,7 +34,7 @@ const client = new ApolloClient({
     });
   },
   //uri: '/graphql'
-  uri: 'http://localhost:3001/graphql'
+  uri: 'https://project-it-panda.herokuapp.com/graphql'
 });
 
 function App() {
