@@ -40,7 +40,7 @@ const typeDefs = gql`
     endDate: String
     status: Status
     tasks:[Task]
-    owner: User
+    owner: String
   }
 
   type Auth {

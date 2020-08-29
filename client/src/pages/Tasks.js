@@ -1,3 +1,4 @@
+import Auth from '../utils/auth';
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -21,6 +22,7 @@ import Button from "../components/CustomButtons/Button.js";
 import { mainListItems } from '../components/ListItems';
 
 
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Logo from '../assets/images/Logo.png'
 import Kanban from '../components/Tasks';
 import ProjectSelect from '../components/ProjectSelect';
@@ -122,6 +124,11 @@ export default function DashboardTask() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const logout = event => {
+    event.preventDefault();
+    Auth.logout();
+  };
  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -143,9 +150,16 @@ export default function DashboardTask() {
             <Link to="/"><img height="65px" src={Logo} alt="project-it"/></Link>
             </div>
           </Typography>
-          <Tooltip title="Login" interactive><IconButton href="/login"><FaceIcon fontSize="large" style={{ color: blueGrey[50] }} ></FaceIcon></IconButton></Tooltip>
-          
+          {Auth.loggedIn() ? (
+             <>
+            <Tooltip title="Logout" interactive><IconButton href="/" onClick={logout}><ExitToAppIcon fontSize="large" style={{ color: blueGrey[50] }} ></ExitToAppIcon></IconButton></Tooltip>
+            </>
+          ) : (
+            <>
+              <Tooltip title="Login" interactive><IconButton href="/login"><FaceIcon fontSize="large" style={{ color: blueGrey[50] }} ></FaceIcon></IconButton></Tooltip>
           <Tooltip title="Sign Up" interactive><IconButton href="/signup"><PersonAddIcon fontSize="large" style={{ color: blueGrey[50] }} ></PersonAddIcon></IconButton></Tooltip>
+            </>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer
