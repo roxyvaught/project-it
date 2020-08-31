@@ -17,8 +17,8 @@ const typeDefs = gql`
   type Comment {
     _id: ID
     comment: String
-    createDate: String
-    user: User
+    user: String
+    ownerTask: String
   }
 
   type Task {
@@ -27,44 +27,48 @@ const typeDefs = gql`
     description: String
     startDate: String
     endDate: String
-    status: Status
-    users: [User]
-    comments: [Comment]
+    status: String
+    percentDone: Int
+    criticalPath: Boolean 
+    ownerUser: String
+    ownerProject: String
   }
 
   type Project {
     _id: ID
-    name: String
+    projname: String
     description: String
     startDate: String
     endDate: String
-    status: Status
-    tasks:[Task]
+
+    status: String
+
     owner: String
   }
 
   type Auth {
-    token: ID
+    token: ID!
     user: User
   }
 
   type Query {
     projects:[Project]
     project(_id: ID!):Project
-    user: User
-    tasks(project: ID): [Task]
-    comments(task: ID): [Comment]
+    user (_id:ID!): User
     users: [User]
-    helloWorld: String
+    tasks(ownerProject: ID!): [Task]
+    comments(ownerTask: String!): [Comment]
+    projectByUser(owner:ID!):[Project]
+    
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!):  Auth,
-    addProject(name: String!, description:String!, startDate:String!, endDate:String!, status:Status, owner: ID!): Project
-    updateProject (_id: ID, name: String, description:String, startDate:String, endDate:String, status:Status, owner: ID): Project
-    addTask(_id: ID!,name:String!, description: String!,startDate:String!, endDate:String!,owner:ID!, status: Status): Status
-    updateTask(_id: ID!,name:String, description: String,startDate:String, endDate:String,owner:ID, status: Status):Status
-    addComment(_id:ID!,comment:String!, user: String!): Comment
+    addProject(projname: String!, description:String!, startDate:String!, endDate:String!, status:String, owner: String!): Project
+    updateProject (_id: ID!, projname: String, description:String, startDate:String, endDate:String, status:String, owner: String): Project
+    addTask(name:String!, description: String!,startDate:String!, endDate:String!,owner:ID!, status: String,percentDone:Int, criticalPath:Boolean,ownerUser:String!, ownerProject:String!): Task
+    updateTask(_id: ID!, name:String, description: String, startDate:String, endDate:String, owner:ID, status: String, percentDone:Int, criticalPath:Boolean, ownerUser:String, ownerProject:String):Task
+    addComment(comment:String!, user: String!, ownerTask:String!): Comment
     login(email: String!, password: String!): Auth
   }
 `;
