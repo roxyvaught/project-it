@@ -1,5 +1,4 @@
-// import Auth from '../../utils/auth';
-//import { Link } from 'react-router-dom';
+import Auth from '../../utils/auth';
 import clsx from 'clsx';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -21,8 +20,11 @@ import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/Logo.png'
 import { Tooltip } from '@material-ui/core';
 
+//icons 
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import FaceIcon from '@material-ui/icons/Face';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
 import { blueGrey } from '@material-ui/core/colors';
 
 
@@ -43,11 +45,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 const PageHeader = () => {
-  
-  //const logout = event => {
-    //event.preventDefault();
-   // Auth.logout();
- // };
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -55,6 +52,12 @@ const PageHeader = () => {
     setOpen(true);
   };
   
+  
+  const logout = event => {
+    event.preventDefault();
+    Auth.logout();
+  };
+
   return (
       <div>
     <CssBaseline />
@@ -75,9 +78,17 @@ const PageHeader = () => {
             </div>
             
         </Typography>
-        <Tooltip title="Login" interactive><IconButton href="/login"><FaceIcon fontSize="large" style={{ color: blueGrey[50] }} ></FaceIcon></IconButton></Tooltip>
-        
-        <Tooltip title="Sign Up" interactive><IconButton href="/signup"><PersonAddIcon fontSize="large" style={{ color: blueGrey[50] }} ></PersonAddIcon></IconButton></Tooltip>
+        {Auth.loggedIn() ? (
+            <>
+            <Tooltip title="Logout" interactive><IconButton href="/" onClick={logout}><ExitToAppIcon fontSize="large" style={{ color: blueGrey[50] }} ></ExitToAppIcon></IconButton></Tooltip>
+            </>
+          ) : (
+            <>
+              <Tooltip title="Login" interactive><IconButton href="/login"><FaceIcon fontSize="large" style={{ color: blueGrey[50] }} ></FaceIcon></IconButton></Tooltip>
+          <Tooltip title="Sign Up" interactive><IconButton href="/signup"><PersonAddIcon fontSize="large" style={{ color: blueGrey[50] }} ></PersonAddIcon></IconButton></Tooltip>
+            </>
+          )}
+
       </Toolbar>
     </AppBar>
    

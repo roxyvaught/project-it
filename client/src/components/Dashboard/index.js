@@ -1,3 +1,4 @@
+import Auth from '../../utils/auth';
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,8 +25,11 @@ import Team from '../Team';
 import Logo from '../../assets/images/Logo.png'
 import { Tooltip } from '@material-ui/core';
 
+//icons
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import FaceIcon from '@material-ui/icons/Face';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+
 import { blueGrey } from '@material-ui/core/colors';
 
 
@@ -122,6 +126,12 @@ export default function Dashboard() {
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  const logout = event => {
+    event.preventDefault();
+    Auth.logout();
+  };
+
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -140,9 +150,16 @@ export default function Dashboard() {
             
             <img height="65px" src={Logo} alt="project-it"/>
           </Typography>
-          <Tooltip title="Login" interactive><IconButton href="/login"><FaceIcon fontSize="large" style={{ color: blueGrey[50] }} ></FaceIcon></IconButton></Tooltip>
-          
+          {Auth.loggedIn() ? (
+            <>
+            <Tooltip title="Logout" interactive><IconButton href="/" onClick={logout}><ExitToAppIcon fontSize="large" style={{ color: blueGrey[50] }} ></ExitToAppIcon></IconButton></Tooltip>
+            </>
+          ) : (
+            <>
+              <Tooltip title="Login" interactive><IconButton href="/login"><FaceIcon fontSize="large" style={{ color: blueGrey[50] }} ></FaceIcon></IconButton></Tooltip>
           <Tooltip title="Sign Up" interactive><IconButton href="/signup"><PersonAddIcon fontSize="large" style={{ color: blueGrey[50] }} ></PersonAddIcon></IconButton></Tooltip>
+            </>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer
