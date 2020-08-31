@@ -1,15 +1,21 @@
 import React from 'react';
-// add these two library import statements
-import { ApolloProvider } from '@apollo/react-hooks';
-import ApolloClient from 'apollo-boost'; 
+
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Tasks from './pages/Tasks';
 import CreateProject from './pages/CreateProject';
+import TeamPage from './pages/TeamPage';
+import NoMatch from './pages/NoMatch';
+
+// add these two library import statements
+import { ApolloProvider } from '@apollo/react-hooks';
+import ApolloClient from 'apollo-boost'; 
+
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Dashboard from './components/Dashboard';
+import AddTasks from './pages/AddTasks';
 
 // Added by Brent 8/25/2020
 import { StoreProvider } from './utils/GlobalState';
@@ -28,7 +34,7 @@ const client = new ApolloClient({
     });
   },
   //uri: '/graphql'
-  uri: 'http://localhost:3001/graphql'
+  uri: 'https://project-it-panda.herokuapp.com/graphql'
 });
 
 function App() {
@@ -45,7 +51,10 @@ function App() {
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/tasks" component={Tasks} />
                 <Route exact path="/CreateProject" component={CreateProject} />
-                
+                <Route exact path="/teampage" component={TeamPage} />
+                <Route exact path="/addtasks" component={AddTasks} />
+
+                <Route component={NoMatch} />
               </Switch>
               <Footer />
             </div>

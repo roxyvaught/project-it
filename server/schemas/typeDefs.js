@@ -40,7 +40,9 @@ const typeDefs = gql`
     description: String
     startDate: String
     endDate: String
+
     status: String
+
     owner: String
   }
 
