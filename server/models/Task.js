@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-//const User = require('./User');
-//const Comment = require('./Comment')
+const User = require('./User');
+const Comment = require('./Comment')
 const { Schema } = mongoose;
 
 
@@ -12,23 +12,40 @@ const taskSchema = new Schema({
     },
     description: {
       type: String,
-      required: true,
-      unique: true
+      required: true
+      
     },
     startDate: {
-      type: Date,
-      required: true
+      type: String,
+      required: true,
+      trim: true
     },
     endDate: {
-        type: Date,
-        required: true
+        type: String,
+        required: true,
+        trim: true
     },
     status: {
         type:String,
         required:true
     },
-    user:[],
-    comment:[]
+    percentDone:{
+        type:Number
+    },
+    criticalPath:{
+        type:Boolean,
+        default:true
+    },
+    ownerProject: {
+      type:String,
+      required:true,
+      trim:true
+    },
+    ownerUser: {
+      type:String,
+      required:true,
+      trim:true
+    }
   });
 
 const Task = mongoose.model('Task', taskSchema);
