@@ -56,6 +56,7 @@ const typeDefs = gql`
     comments(task: ID): [Comment]
     users: [User]
     helloWorld: String
+    team(_id:ID!): [User]
   }
 
   type Mutation {

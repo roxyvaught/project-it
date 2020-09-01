@@ -12,7 +12,8 @@ import Header from '../Header';
 function createData(id, name, project) {
   return { id, name, project };
 }
-
+// query projects use current user id.  Store in array.  Query tasks according to each project store in array.  Query user
+// 
 const rows = [
   createData(0, 'Adam Sandler', 'Coffee'),
   createData(1, 'Gabriel Iglesias', 'Notebooks'),

@@ -32,6 +32,9 @@ const resolvers = {
         },
         helloWorld: () => {
             return 'Hello World!';
+        },
+        team: (parent,{_id}) => {
+            
         }
     },
     Mutation: {
