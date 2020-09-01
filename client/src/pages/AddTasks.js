@@ -16,6 +16,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import PageHeader from '../components/PageHeader'
 import TextField from '@material-ui/core/TextField';
 import Team from '../components/Team';
+import ProjectSelect from '../components/ProjectSelect';
 
 const styles = {
   cardCategoryWhite: {
@@ -58,14 +59,15 @@ export default function CreateProject() {
         <GridItem xs={12} sm={12} md={8}>
           <Card>
             <CardHeader color="success">
-              <h4 className={classes.cardTitleWhite}>Add Your Project</h4>
-              <p className={classes.cardCategoryWhite}>Start organizing your next adventure</p>
+              <h4 className={classes.cardTitleWhite}>Add Your Task</h4>
+              <p className={classes.cardCategoryWhite}>Start Adding Tasks to Your Project</p>
             </CardHeader>
             <CardBody>
               <GridContainer>
+              <ProjectSelect />
               <GridItem xs={12}>
                   <CustomInput
-                    labelText="Project Name"
+                    labelText="Task Name"
                     id="project"
                     formControlProps={{
                       fullWidth: true
@@ -100,7 +102,7 @@ export default function CreateProject() {
               <div>&nbsp;&nbsp;</div>
               <GridContainer>
               <GridItem>
-          <InputLabel id="select">Teammate</InputLabel>
+          <InputLabel id="select">Assign Teammate</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -117,7 +119,7 @@ export default function CreateProject() {
               </GridContainer>
             </CardBody>
             <CardFooter>
-              <Button color="success">Add Your Project</Button>
+              <Button color="success">Add Task</Button>
             </CardFooter>
           </Card>
         </GridItem>

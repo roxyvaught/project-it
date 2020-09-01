@@ -41,14 +41,16 @@ export default function SignUp(props) {
   const classes = useStyles();
 
   // brent
-  const [ formState, setFormState] = useState({ email: '', password: ''});
+  const [ formState, setFormState] = useState({ username: '', email: '', password: ''});
   const [addUser] = useMutation(ADD_USER);
 
   const handleFormSubmit = async event => {
     event.preventDefault();
     const mutationResponse = await addUser({
       variables: {
-        email: formState.email, password: formState.password
+        username: formState.username,
+        email: formState.email, 
+        password: formState.password
       }
     });
     const token = mutationResponse.data.addUser.token;
@@ -75,28 +77,16 @@ export default function SignUp(props) {
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleFormSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
-                autoComplete="fname"
-                name="firstName"
+                autoComplete="username"
+                name="username"
                 variant="outlined"
                 required
                 fullWidth
-                id="firstName"
-                label="First Name"
+                id="username"
+                label="Username"
                 autoFocus
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
                 onChange={handleChange}
               />
             </Grid>
