@@ -17,7 +17,7 @@ const StoreProvider = ({ value = [], ...props }) => {
     });
 
     // rem this line out when going to production
-    console.log(state);
+    //console.log(state);
     return <Provider value={[state, dispatch]} {...props} />;
 }
 

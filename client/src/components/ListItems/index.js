@@ -39,8 +39,9 @@ export const mainListItems = (
   </div>
 );
 
-export const secondaryListItems = (
-  <div>
+export const secondaryListItems = 
+    (
+    <div>
     <ListSubheader inset>Current Projects</ListSubheader>
     <ListItem button>
       <ListItemIcon>
@@ -61,4 +62,5 @@ export const secondaryListItems = (
       <ListItemText primary="Housing Site" />
     </ListItem>
   </div>
-);
+  )
+;

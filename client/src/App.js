@@ -1,5 +1,5 @@
 import React from 'react';
-
+//import Auth from './utils/auth';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -8,9 +8,11 @@ import CreateProject from './pages/CreateProject';
 import TeamPage from './pages/TeamPage';
 import NoMatch from './pages/NoMatch';
 
+
 // add these two library import statements
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost'; 
+//import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -33,8 +35,8 @@ const client = new ApolloClient({
       }
     });
   },
-  //uri: '/graphql'
-  uri: 'https://project-it-panda.herokuapp.com/graphql'
+  uri: 'http://localhost:3001/graphql'
+  //uri: 'https://project-it-panda.herokuapp.com/graphql'
 });
 
 function App() {
