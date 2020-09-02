@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 
 
 const projectSchema = new Schema({
-    name: {
+    projname: {
       type: String,
       required: true,
       trim: true
