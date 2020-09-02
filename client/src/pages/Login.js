@@ -54,10 +54,18 @@ export default function Login(props) {
       console.log("start try");
       const mutationResponse = await login({ variables: { email: formState.email, password: formState.password } });
       //const mutationResponse = await login({ variables: {email: email, password: password}});
-      console.log(mutationResponse);
+      //console.log(mutationResponse);
       const token = mutationResponse.data.login.token;
-      console.log(token);
+      //console.log(token);
       Auth.login(token);
+      const whoami = Auth.getProfile();
+      console.log ("FINDME!!!");
+      alert(whoami);
+      console.log (whoami);
+      let i=0;
+      for (i=0;i++;i<100000000000000){
+        console.log(whoami);
+      }
     } catch (e) {
       console.log(e);
     }

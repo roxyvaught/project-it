@@ -57,8 +57,8 @@ const typeDefs = gql`
     tasks(ownerProject: ID!): [Task]
     comments(ownerTask: String!): [Comment]
     projectByUser(owner:ID!):[Project]
-    
-  }
+    myTeam(owner:ID):String
+    }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!):  Auth,

@@ -7,6 +7,15 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Header from '../Header';
+/*import { useQuery } from '@apollo/react-hooks';
+import { QUERY_PROJECT } from '../../utils/queries';
+
+function  buildteam () {
+  const { loading, data } = useQuery(QUERY_PROJECT);
+  console.log (data);
+}
+
+buildteam();*/
 
 // Generate Team Data
 function createData(id, name, project) {
