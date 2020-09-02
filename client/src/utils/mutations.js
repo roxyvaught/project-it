@@ -21,3 +21,32 @@ export const ADD_USER = gql`
         }
     }
 `;
+
+export const ADD_PROJECT = gql`
+    mutation addProject(
+        $name: String!,
+        $description: String!,
+        $startDate: String!,
+        $endDate: String!,
+        $status: Status,
+        $owner: ID!
+        ) 
+        {
+            addProject(
+            name: $name
+            description: $description
+            startDate: $startDate
+            endDate: $endDate
+            status: $status
+            owner: $owner    
+            ) {
+                _id
+                name
+                description
+                startDate
+                endDate
+                status
+                owner
+            }
+        }
+`;

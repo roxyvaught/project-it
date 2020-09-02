@@ -15,10 +15,12 @@ const resolvers = {
         project: async (parent, {_id}) => {
             return await Project.findById(_id);
         },
-        //user: async (parent, {_id}) =>{
+        projectsByOwner: async (parent, args) => await Project.find(args),
         user: async (parent, {_id}) =>{
-        //    return await User.findById(_id);
             return await User.findById(_id);
+        },
+        users: async () => {
+            return await User.find();
         },
         tasks: async (parent,{_id}) =>{
             const projectTasks = await Project.findById(_id);
@@ -80,7 +82,7 @@ const resolvers = {
                     {_id: context.id},
                     {startDate:context.startDate}
                 )
-                return pdateProjSDate;
+                return updateProjSDate;
             };
             if (context.endDate){
                 const updateProjEDate = await Project.findOneAndUpdate(
@@ -94,7 +96,7 @@ const resolvers = {
                     {_id: context.id},
                     {status:context.status}
                 )
-                return pdateProjStatus;
+                return updateProjStatus;
             };
             if (context.owner){
                 const updateProjOwner = await Project.findOneAndUpdate(

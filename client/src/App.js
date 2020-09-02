@@ -1,5 +1,5 @@
 import React from 'react';
-
+//import Auth from './utils/auth';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Signup from './pages/Signup';

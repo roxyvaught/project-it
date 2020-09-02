@@ -1,5 +1,10 @@
 import Auth from '../../utils/auth';
-import React from 'react';
+import React , { useEffect } from 'react';
+import { idbPromise } from '../../utils/helpers';
+import { useQuery } from '@apollo/react-hooks';
+import { useStoreContext } from '../../utils/GlobalState';
+import { QUERY_PROJECTS } from '../../utils/queries';
+import { UPDATE_PROJECTS } from '../../utils/actions';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -116,6 +121,51 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
+  const [state, dispatch] = useStoreContext();
+  const { currentProject } = state;
+
+  function getUserID() {
+    if (Auth.loggedIn()) {
+      const token = Auth.getToken();
+      const user = Auth.getProfile(token);
+      //console.log(user.data._id);
+      return user.data._id
+    }  
+  }
+  const userid = getUserID();
+  const { loading, data } = useQuery(QUERY_PROJECTS, {variables: {owner: userid}});
+
+  useEffect (() => {
+    // if there is data to be stored
+    if (data) {
+      // store the data in the globalstate object
+      dispatch({
+        type: UPDATE_PROJECTS,
+        projects: data.projectsByOwner
+      });
+
+      // take each project and save it to indexedDB
+      data.projectsByOwner.forEach((project) => {
+        idbPromise('projects', 'put', project);
+      });
+      console.log(data);
+    } else if (!loading) {
+      // if it isn't loading, we are offline and need to get projects from indexedDB
+      console.log('no internet found, so using local database');
+      idbPromise('projects', 'get').then((projects) => {
+        // get the information from the local indexedDB and set the global state for offline browsing
+        dispatch({
+          type: UPDATE_PROJECTS,
+          projects: projects
+        });
+      });
+    }
+  }, [data, loading, dispatch]);
+
+  // How do you get the state lengths or apply to the state
+  console.log(state.projects.length);
+
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
