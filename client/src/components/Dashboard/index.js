@@ -20,6 +20,11 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 import { mainListItems } from '../ListItems';
 import { secondaryListItems } from '../ListItems';
@@ -122,7 +127,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const [state, dispatch] = useStoreContext();
-  const { currentProject } = state;
+  const { projects } = state;
 
   function getUserID() {
     if (Auth.loggedIn()) {
@@ -133,7 +138,9 @@ export default function Dashboard() {
     }  
   }
   const userid = getUserID();
-  const { loading, data } = useQuery(QUERY_PROJECTS, {variables: {owner: userid}});
+  const { loading, data } = await useQuery(QUERY_PROJECTS, {variables: {owner: userid}});
+
+  console.log(data);
 
   useEffect (() => {
     // if there is data to be stored
@@ -148,7 +155,7 @@ export default function Dashboard() {
       data.projectsByOwner.forEach((project) => {
         idbPromise('projects', 'put', project);
       });
-      console.log(data);
+      //console.log(data);
     } else if (!loading) {
       // if it isn't loading, we are offline and need to get projects from indexedDB
       console.log('no internet found, so using local database');
@@ -163,8 +170,9 @@ export default function Dashboard() {
   }, [data, loading, dispatch]);
 
   // How do you get the state lengths or apply to the state
-  console.log(state.projects.length);
-
+  function showProjects(projects) {
+    console.log(projects); 
+  };
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -228,6 +236,20 @@ export default function Dashboard() {
         <List>{mainListItems}</List>
         <Divider />
       <List>{secondaryListItems}</List>
+      <List>
+        <div>
+          <ListSubheader inset>Current Projects</ListSubheader>
+            <ListItem button>
+              <ListItemIcon>
+                <AssignmentIcon />
+              </ListItemIcon>
+              <ListItemText primary="Test Entry" />
+            </ListItem>
+            {showProjects(data)}
+                
+        </div>    
+      </List>
+      
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
