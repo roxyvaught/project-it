@@ -1,5 +1,6 @@
 import Auth from '../../utils/auth';
-import React , { useEffect } from 'react';
+import React , { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { idbPromise } from '../../utils/helpers';
 import { useQuery } from '@apollo/react-hooks';
 import { useStoreContext } from '../../utils/GlobalState';
@@ -27,7 +28,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
 import { mainListItems } from '../ListItems';
-import { secondaryListItems } from '../ListItems';
+//import { secondaryListItems } from '../ListItems';
 import Chart from '../Chart';
 import Projects from '../LatestProject';
 import Team from '../Team';
@@ -127,6 +128,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const [state, dispatch] = useStoreContext();
+  const [currentProject, setCurrentProject] = useState({});
+  const { id } = useParams();
   const { projects } = state;
 
   function getUserID() {
@@ -138,13 +141,19 @@ export default function Dashboard() {
     }  
   }
   const userid = getUserID();
-  const { loading, data } = await useQuery(QUERY_PROJECTS, {variables: {owner: userid}});
 
-  console.log(data);
+  const { loading, data } = useQuery(QUERY_PROJECTS, {variables: {owner: userid}});
+
+  
+
+  //console.log(data);
 
   useEffect (() => {
+    if (projects.length) {
+      setCurrentProject(projects.find(project => project._id === id));
+    }
     // if there is data to be stored
-    if (data) {
+    else if (data) {
       // store the data in the globalstate object
       dispatch({
         type: UPDATE_PROJECTS,
@@ -167,11 +176,42 @@ export default function Dashboard() {
         });
       });
     }
-  }, [data, loading, dispatch]);
+  }, [projects, data, loading, dispatch]);
 
-  // How do you get the state lengths or apply to the state
+  function changeProject(e) {
+    e.persist();
+    const projectId = e.target.offsetParent.id;
+    console.log(projectId);
+
+  }
+
+  // Display a list of the Projects
   function showProjects(projects) {
-    console.log(projects); 
+    if (projects) {
+      //console.log(projects);
+      if (projects.projectsByOwner.length === 0) {
+        return (
+          <ListItem>
+            <ListItemText>
+              You must create a project
+            </ListItemText>
+          </ListItem>
+        )
+      }
+      else {
+        return projects.projectsByOwner.map(project => (
+          <ListItem button key={project._id} id={project._id} onClick={changeProject} >
+            <ListItemIcon>
+              <AssignmentIcon />
+            </ListItemIcon>
+            <ListItemText 
+              id={project._id}
+              primary={project.name} 
+            />
+          </ListItem>
+        
+        ))
+    }}
   };
 
   const classes = useStyles();
@@ -235,16 +275,10 @@ export default function Dashboard() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-      <List>{secondaryListItems}</List>
       <List>
         <div>
           <ListSubheader inset>Current Projects</ListSubheader>
-            <ListItem button>
-              <ListItemIcon>
-                <AssignmentIcon />
-              </ListItemIcon>
-              <ListItemText primary="Test Entry" />
-            </ListItem>
+
             {showProjects(data)}
                 
         </div>    
