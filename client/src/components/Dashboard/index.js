@@ -206,7 +206,7 @@ export default function Dashboard() {
             </ListItemIcon>
             <ListItemText 
               id={project._id}
-              primary={project.name} 
+              primary={project.projname} 
             />
           </ListItem>
         

@@ -27,8 +27,8 @@ const taskSchema = new Schema({
         type:String,
         required:true
     },
-    user:[],
-    comment:[]
+    
+    
   });
 
 const Task = mongoose.model('Task', taskSchema);

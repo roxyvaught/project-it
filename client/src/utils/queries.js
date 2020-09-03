@@ -120,6 +120,7 @@ export const QUERY_TASKS_BY_PROJECT = gql`
       startDate
       endDate
       status
+      
     }
   }
 `;
@@ -137,7 +138,7 @@ export const QUERY_PROJECTS = gql`
     query getProjects($owner: String!) {
         projectsByOwner(owner: $owner) {
             _id
-            name
+            projname
         }
     }
 `;
