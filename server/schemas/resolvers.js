@@ -12,31 +12,46 @@ const resolvers = {
         projects: async () => {
             return await Project.find();
         },
+        users: async () => {
+            return await User.find();
+        },
         project: async (parent, {_id}) => {
             return await Project.findById(_id);
         },
         projectsByOwner: async (parent, args) => await Project.find(args),
         user: async (parent, {_id}) =>{
-            return await User.findById(_id);
+            return await User.findById(_id);evelop
         },
         users: async () => {
             return await User.find();
         },
         tasks: async (parent,{_id}) =>{
-            const projectTasks = await Project.findById(_id);
-            return projectTasks.tasks;
+            return await Task.find({ownerProject:_id});
         },
-        comments: async (parent,args) =>{
-            const taskComment = await Task.findById(_id);
-            return taskComment.comments;
+        comments: async (parent,{ownerTask}) =>{
+            return await Comment.find({ownerTask:ownerTask});
+            
         },
-        helloWorld: () => {
-            return 'Hello World!';
+        projectByUser: async (parent, {owner} ) =>{
+            const returned = Project.find({owner:owner});
+            console.log (returned);
+            return await Project.find({owner:owner});
+            
+        },
+        myTeam: async (parent,{owner}) => {
+            const projects = await Project.find({owner:owner});
+            console.log (projects.name);
+            const done = 'done';
+            return done;
+
+
         }
+
     },
     Mutation: {
         addUser: async (parent, args) => {
             const user = await User.create(args);
+            console.log (user);
             const token = signToken(user);
             //console.log(user);
             //console.log(token);
@@ -58,123 +73,111 @@ const resolvers = {
             return { token, user };
         },
         addProject: async (parent, args) =>{
+            console.log (args);
             return await Project.create(args)
 
         },
-        updateProject: async (parent, args, context) =>{
-            
-            if (context.name){
+        updateProject: async (parent, args) =>{
+            console.log(args);
+            if (args.projname){
                 const updateProjName = await Project.findOneAndUpdate(
-                    {_id: context.id},
-                    {name:context.name}
+                    {_id: args._id},
+                    {name:args.name}
                 )
-                return updateProjName;
+                
             }; 
-            if (context.description){
+            if (args.description){
                 const updateProjDesc = await Project.findOneAndUpdate(
-                    {_id: context.id},
-                    {description:context.description}
+                    {_id: args._id},
+                    {description:args.description}
                 )
-                return updateProjDesc;
+                
             };
-            if (context.startDate){
+            if (args.startDate){
                 const updateProjSDate = await Project.findOneAndUpdate(
-                    {_id: context.id},
-                    {startDate:context.startDate}
+                    {_id: args._id},
+                    {startDate:args.startDate}
                 )
-                return updateProjSDate;
             };
-            if (context.endDate){
+            if (args.endDate){
                 const updateProjEDate = await Project.findOneAndUpdate(
-                    {_id: context.id},
-                    {endDate:context.endDate}
+                    {_id: args._id},
+                    {endDate:args.endDate}
                 )
-                return updateProjEDate;
+               
             };
-            if (context.status){
+            if (args.status){
                 const updateProjStatus = await Project.findOneAndUpdate(
-                    {_id: context.id},
-                    {status:context.status}
+                    {_id: args._id},
+                    {status:args.status}
                 )
-                return updateProjStatus;
             };
-            if (context.owner){
+            if (args.owner){
                 const updateProjOwner = await Project.findOneAndUpdate(
-                    {_id: context.id},
-                    {owner:context.owner}
+                    {_id: args._id},
+                    {owner:args.owner}
                 )
-                return updateProjOwner;
+                
             };
+            const updatedProject =await Project.findById(args._id);
+            return updatedProject;
         },
         addTask: async (parent, args) =>{
-            const projId = args.id;
-            const newTask = await Task.create({name: args.name},
-                {description: args.description},
-                {startDate: args.startDate},
-                {endDate: args.endDate}, 
-                {status: args.status},
-                {owner: args.owner}
-                );
-            const updatedProj = await Project.findOneAndUpdate(
-                {_id:projId},
-                { $push: { tasks: {newTask } } },
-            )
-            return updatedProj;
+            
+            return await Task.create(args)
+            //console.log(newTask);
+            
+            return newTask;
         },
-        updateTask: async (parent, args,context) =>{
-            if (context.name){
-                const updateTaskName = await Task.findOneAndUpdate(
-                    {_id: context.id},
-                    {name:context.name}
+        updateTask: async (parent, args) =>{
+            console.log(args);
+            if (args.name){
+                await Task.findOneAndUpdate(
+                    {_id: args._id},
+                    {name:args.name}
                 )
-                return updatedTaskName;
+                
             }; 
-            if (context.description){
-                const updateTaskDesc = await Task.findOneAndUpdate(
-                    {_id: context.id},
-                    {description:context.description}
+            if (args.description){
+                 await Task.findOneAndUpdate(
+                    {_id: args._id},
+                    {description:args.description}
                 )
-                return updateTaskDesc;
+                
             };
-            if (context.startDate){
-                const updateTaskSDate = await Task.findOneAndUpdate(
-                    {_id: context.id},
-                    {startDate:context.startDate}
+            if (args.startDate){
+                 await Task.findOneAndUpdate(
+                    {_id: args._id},
+                    {startDate:args.startDate}
                 )
-                return updateTaskSDate;
+                
             };
-            if (context.endDate){
-                const updateTaskEDate = await Task.findOneAndUpdate(
-                    {_id: context.id},
-                    {endDate:context.endDate}
+            if (args.endDate){
+                 await Task.findOneAndUpdate(
+                    {_id: args._id},
+                    {endDate:args.endDate}
                 )
-                return updateTaskEDate;
+                
             };
-            if (context.status){
-                const updateTaskStatus = await Task.findOneAndUpdate(
-                    {_id: context.id},
-                    {status:context.status}
+            if (args.status){
+                await Task.findOneAndUpdate(
+                    {_id: args._id},
+                    {status:args.status}
                 )
-                return updateTaskStatus;
+                
             };
-            if (context.owner){
-                const updateTaskOwner = await Task.findOneAndUpdate(
-                    {_id: context.id},
-                    {owner:context.owner}
+            if (args.owner){
+                await Task.findOneAndUpdate(
+                    {_id: args._id},
+                    {owner:args.owner}
                 )
-                return updateTaskOwner;
+                
             }
+            const updatedTask =await Task.findById(args._id);
+            return updatedTask;
         },
         addComment: async (parent, args) =>{
-            const taskId = args.id;
-            const newComment = await Comment.create({comment: args.comment},
-                {user: args.user}
-                );
-            const updatedTask = await Task.findOneAndUpdate(
-                {_id:taskId},
-                { $push: { comments: {newComment} } },
-            );
-            return updatedTask;
+            return await Comment.create(args)
         }
     }
 }

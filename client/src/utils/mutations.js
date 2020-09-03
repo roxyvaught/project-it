@@ -23,30 +23,83 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_PROJECT = gql`
-    mutation addProject(
-        $name: String!,
-        $description: String!,
-        $startDate: String!,
-        $endDate: String!,
-        $status: Status,
-        $owner: ID!
-        ) 
-        {
-            addProject(
-            name: $name
-            description: $description
-            startDate: $startDate
-            endDate: $endDate
-            status: $status
-            owner: $owner    
-            ) {
-                _id
-                name
-                description
-                startDate
-                endDate
-                status
-                owner
+    mutation addProject($projname: String!, $description: String!, $startDate: String!, $endDate: String!,$status: String,$owner:String!) {
+        addProject(
+            projname: $projname,
+            description: $description,
+            startDate: $startDate,
+            endDate: $endDate,
+            status: $status,
+            owner: $owner)
+            { 
+            _id
             }
-        }
+        
+    }
+`;
+
+export const UPDATE_PROJECT = gql`
+    mutation updateProject($_id:ID!,$projname: String, $description: String, $startDate: String, $endDate: String,$status: String,$owner:String) {
+        updateProject(
+            _id:$_id,
+            projname: $projname,
+            description: $description,
+            startDate: $startDate,
+            endDate: $endDate,
+            status: $status,
+            owner: $owner)
+            { 
+            _id
+            }
+        
+    }
+`;
+
+export const ADD_TASK = gql`
+    mutation addTask($name: String!, $description: String!, $startDate: String!, $endDate: String!,$status: String, $percentDone:Int, $criticalPath: Boolean, $owner:String!) {
+        addTask(
+            name: $name,
+            description: $description,
+            startDate: $startDate,
+            endDate: $endDate,
+            status: $status,
+            percentDone: $percentDone,
+            criticalPath: $criticalPath,
+            owner: $owner)
+            {
+            _id
+            }
+        
+    }
+`;
+
+export const UPDATE_TASK = gql`
+    mutation updateTask($name: String!, $description: String!, $startDate: String!, $endDate: String!,$status: String, $percentDone:Int, $criticalPath: Boolean, $owner:String!) {
+        updateTask(
+            name: $name,
+            description: $description,
+            startDate: $startDate,
+            endDate: $endDate,
+            status: $status,
+            percentDone: $percentDone,
+            criticalPath: $criticalPath,
+            owner: $owner)
+            {
+            _id
+            }
+        
+    }
+`;
+
+export const ADD_COMMENT = gql`
+    mutation addComment($comment:String!, $user: String!, $ownerTask:String!) {
+        updateComment(
+            comment: $comment,
+            user: $user,
+            ownerTask: $ownerTask)
+            {
+            _id
+            }
+        
+    }
 `;
