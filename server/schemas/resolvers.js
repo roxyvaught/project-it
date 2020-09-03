@@ -18,12 +18,12 @@ const resolvers = {
         project: async (parent, {_id}) => {
             return await Project.findById(_id);
         },
-        //user: async (parent, {_id}) =>{
+        projectsByOwner: async (parent, args) => await Project.find(args),
         user: async (parent, {_id}) =>{
-
-        //    return await User.findById(_id);
-
-            return await User.findById(_id);
+            return await User.findById(_id);evelop
+        },
+        users: async () => {
+            return await User.find();
         },
         tasks: async (parent,{_id}) =>{
             return await Task.find({ownerProject:_id});
@@ -53,11 +53,9 @@ const resolvers = {
             const user = await User.create(args);
             console.log (user);
             const token = signToken(user);
-            console.log(user);
-            console.log(token);
-            return { token, user };
             //console.log(user);
-            //return ( user );
+            //console.log(token);
+            return { token, user };
         },
         login: async (parent, { email, password }) => {
             const user = await User.findOne({ email });
@@ -100,7 +98,6 @@ const resolvers = {
                     {_id: args._id},
                     {startDate:args.startDate}
                 )
-                
             };
             if (args.endDate){
                 const updateProjEDate = await Project.findOneAndUpdate(
@@ -114,7 +111,6 @@ const resolvers = {
                     {_id: args._id},
                     {status:args.status}
                 )
-                
             };
             if (args.owner){
                 const updateProjOwner = await Project.findOneAndUpdate(

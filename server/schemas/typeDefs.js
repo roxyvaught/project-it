@@ -52,6 +52,7 @@ const typeDefs = gql`
   type Query {
     projects:[Project]
     project(_id: ID!):Project
+    projectsByOwner(owner: String): [Project]
     user (_id:ID!): User
     users: [User]
     tasks(ownerProject: ID!): [Task]

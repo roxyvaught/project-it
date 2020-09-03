@@ -1,5 +1,42 @@
 import gql from 'graphql-tag';
 
+export const QUERY_PROJECTSBYOWNER = gql`
+    query projectsByOwner($owner: String) {
+        projectsByOwner(owner: $owner) {
+            _id
+            projname
+            description
+            startDate
+            endDate
+            status
+            tasks { 
+                _id
+                name
+                description
+                startDate
+                endDate
+                status
+                comments {
+                    _id
+                    comment
+                    createDate
+                    user {
+                        _id
+                        username
+                        email
+                    }
+                }
+                users {
+                    _id
+                    username
+                    email
+                }
+            }
+            owner
+        }
+    }
+`;
+
 export const QUERY_ALL_PROJECTS = gql`
 {
     projects {
@@ -9,7 +46,7 @@ export const QUERY_ALL_PROJECTS = gql`
         startDate
         endDate
         status
-        owner
+        owner 
       }
   }`;
 
@@ -22,10 +59,35 @@ export const QUERY_PROJECT = gql`
             startDate
             endDate
             status
+            tasks { 
+                _id
+                name
+                description
+                startDate
+                endDate
+                status
+                comments {
+                    _id
+                    comment
+                    createDate
+                    user {
+                        _id
+                        username
+                        email
+                    }
+                }
+                users {
+                    _id
+                    username
+                    email
+                }
+            }
+
             owner
         }
     }
 `;
+
 
 export const QUERY_USERS = gql`
     {
@@ -36,6 +98,7 @@ export const QUERY_USERS = gql`
         }
     }
 `;
+
 
 export const QUERY_USER = gql`
   query user($_id: ID!) {
