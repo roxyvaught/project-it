@@ -56,8 +56,7 @@ const typeDefs = gql`
     project(_id: ID!):Project
     projectsByOwner(owner: String): [Project]
     user: User
-    tasks(project: ID): [Task]
-    comments(task: ID): [Comment]
+  
     users: [User]
     tasks(ownerProject: ID!): [Task]
     comments(ownerTask: String!): [Comment]
@@ -67,8 +66,8 @@ const typeDefs = gql`
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!):  Auth,
-    addProject(name: String!, description:String!, startDate:String!, endDate:String!, status:Status, owner: ID!): Project
-    updateProject (_id: ID, name: String, description:String, startDate:String, endDate:String, status:Status, owner: ID): Project,
+    addProject(projname: String!, description:String!, startDate:String!, endDate:String!, status:Status, owner: String): Project
+    updateProject (_id: ID, name: String, description:String, startDate:String, endDate:String, status:Status, owner:String): Project,
     addTask(_id: ID!,name:String!, description: String!,startDate:String!, endDate:String!,owner:ID!, status: Status): Status
     updateTask(_id: ID!,name:String, description: String,startDate:String, endDate:String,owner:ID, status: Status):Status
     addComment(_id:ID!,comment:String!, user: String!): Comment

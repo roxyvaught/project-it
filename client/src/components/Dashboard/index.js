@@ -1,10 +1,5 @@
 import Auth from '../../utils/auth';
-import React , { useEffect } from 'react';
-import { idbPromise } from '../../utils/helpers';
-import { useQuery } from '@apollo/react-hooks';
-import { useStoreContext } from '../../utils/GlobalState';
-import { QUERY_PROJECTS } from '../../utils/queries';
-import { UPDATE_PROJECTS } from '../../utils/actions';
+import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,14 +15,14 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+//import ListItem from '@material-ui/core/ListItem';
+//import ListItemIcon from '@material-ui/core/ListItemIcon';
+//import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import AssignmentIcon from '@material-ui/icons/Assignment';
+//import AssignmentIcon from '@material-ui/icons/Assignment';
 
-import { mainListItems } from '../ListItems';
-import { secondaryListItems } from '../ListItems';
+import { mainListItems } from '../MainListItems';
+import SecondaryListItems from '../ListItems';
 import Chart from '../Chart';
 import Projects from '../LatestProject';
 import Team from '../Team';
@@ -126,53 +121,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
-  const [state, dispatch] = useStoreContext();
-  const { projects } = state;
-
-  function getUserID() {
-    if (Auth.loggedIn()) {
-      const token = Auth.getToken();
-      const user = Auth.getProfile(token);
-      //console.log(user.data._id);
-      return user.data._id
-    }  
-  }
-  const userid = getUserID();
-  const { loading, data } = await useQuery(QUERY_PROJECTS, {variables: {owner: userid}});
-
-  console.log(data);
-
-  useEffect (() => {
-    // if there is data to be stored
-    if (data) {
-      // store the data in the globalstate object
-      dispatch({
-        type: UPDATE_PROJECTS,
-        projects: data.projectsByOwner
-      });
-
-      // take each project and save it to indexedDB
-      data.projectsByOwner.forEach((project) => {
-        idbPromise('projects', 'put', project);
-      });
-      //console.log(data);
-    } else if (!loading) {
-      // if it isn't loading, we are offline and need to get projects from indexedDB
-      console.log('no internet found, so using local database');
-      idbPromise('projects', 'get').then((projects) => {
-        // get the information from the local indexedDB and set the global state for offline browsing
-        dispatch({
-          type: UPDATE_PROJECTS,
-          projects: projects
-        });
-      });
-    }
-  }, [data, loading, dispatch]);
-
-  // How do you get the state lengths or apply to the state
-  function showProjects(projects) {
-    console.log(projects); 
-  };
+ 
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
@@ -189,7 +138,6 @@ export default function Dashboard() {
     Auth.logout();
   };
 
-  
 
 
   return (
@@ -237,17 +185,11 @@ export default function Dashboard() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-      <List>{secondaryListItems}</List>
+      <List>{SecondaryListItems}</List>
       <List>
         <div>
           <ListSubheader inset>Current Projects</ListSubheader>
-            <ListItem button>
-              <ListItemIcon>
-                <AssignmentIcon />
-              </ListItemIcon>
-              <ListItemText primary="Test Entry" />
-            </ListItem>
-            {showProjects(data)}
+          <List>{SecondaryListItems}</List>
                 
         </div>    
       </List>

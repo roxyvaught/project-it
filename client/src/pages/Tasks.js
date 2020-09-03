@@ -19,7 +19,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import { Tooltip } from '@material-ui/core';
 import Button from "../components/CustomButtons/Button.js";
-import { mainListItems } from '../components/ListItems';
+import { mainListItems } from '../components/MainListItems';
 
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -177,7 +177,7 @@ export default function DashboardTask() {
         <Divider />
         <List>{mainListItems}</List>
         <Divider />
-      {/* <List>{secondaryListItems}</List> */}
+      {/* <List>{SecondaryListItems}</List> */}
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
