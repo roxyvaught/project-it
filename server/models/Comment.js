@@ -16,7 +16,7 @@ const commentSchema = new Schema({
       trim:true
     },
     ownerTask: {
-      type:String,
+      type: String,
       required:true,
       trim:true
     }

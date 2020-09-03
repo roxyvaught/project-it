@@ -7,12 +7,22 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Header from '../Header';
+/*import { useQuery } from '@apollo/react-hooks';
+import { QUERY_PROJECT } from '../../utils/queries';
+
+function  buildteam () {
+  const { loading, data } = useQuery(QUERY_PROJECT);
+  console.log (data);
+}
+
+buildteam();*/
 
 // Generate Team Data
 function createData(id, name, project) {
   return { id, name, project };
 }
-
+// query projects use current user id.  Store in array.  Query tasks according to each project store in array.  Query user
+// 
 const rows = [
   createData(0, 'Adam Sandler', 'Coffee'),
   createData(1, 'Gabriel Iglesias', 'Notebooks'),
