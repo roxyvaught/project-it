@@ -49,14 +49,14 @@ export default function Login(props) {
 
   const handleFormSubmit = async event => {
     event.preventDefault();
-    console.log('start handleFormSubmit');
+    //console.log('start handleFormSubmit');
     try {
-      console.log("start try");
+      //console.log("start try");
       const mutationResponse = await login({ variables: { email: formState.email, password: formState.password } });
       //const mutationResponse = await login({ variables: {email: email, password: password}});
-      console.log(mutationResponse);
+      //console.log(mutationResponse);
       const token = mutationResponse.data.login.token;
-      console.log(token);
+      //console.log(token);
       Auth.login(token);
     } catch (e) {
       console.log(e);

@@ -40,9 +40,7 @@ const typeDefs = gql`
     description: String
     startDate: String
     endDate: String
-
     status: String
-
     owner: String
   }
 
@@ -54,13 +52,14 @@ const typeDefs = gql`
   type Query {
     projects:[Project]
     project(_id: ID!):Project
+    projectsByOwner(owner: String): [Project]
     user (_id:ID!): User
     users: [User]
     tasks(ownerProject: ID!): [Task]
     comments(ownerTask: String!): [Comment]
     projectByUser(owner:ID!):[Project]
-    
-  }
+    myTeam(owner:ID):String
+    }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!):  Auth,
