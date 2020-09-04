@@ -120,6 +120,9 @@ export const QUERY_TASKS_BY_PROJECT = gql`
       startDate
       endDate
       status
+      percentDone
+      criticalPath
+      ownerProject
       
     }
   }

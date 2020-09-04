@@ -1,4 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState }  from 'react';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@apollo/react-hooks';
+import { QUERY_TASKS_BY_PROJECT } from '../../utils/queries';
+import { QUERY_USER } from '../../utils/queries';
+import { useStoreContext } from '../../utils/GlobalState';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -7,13 +12,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Header from '../Header';
-import { useQuery } from '@apollo/react-hooks';
-import { QUERY_TASK } from '../../utils/queries';
 
-function  Buildteam () {
-  const { loading, data } = useQuery(QUERY_TASKS);
+
+/*function  Buildteam () {
+  const { loading, data } = useQuery(QUERY_TASKS_BY_PROJECT, {variables: {ownerProject: userid}});
   console.log (data);
-}
+}*/
 
 
 
@@ -42,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Team() {
+  const [state, dispatch] = useStoreContext();
+  const [currentProject, setCurrentProject] = useState({});
+  console.log(state);
   const classes = useStyles();
   return (
     <React.Fragment>
