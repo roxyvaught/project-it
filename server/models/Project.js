@@ -5,34 +5,35 @@ const { Schema } = mongoose;
 
 
 const projectSchema = new Schema({
-    projname: {
+  projname: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  startDate: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  endDate: {
       type: String,
       required: true,
       trim: true
-    },
-    description: {
-      type: String,
-      required: true,
-      unique: true
-    },
-    startDate: {
-      type: Date,
-      required: true
-    },
-    endDate: {
-        type: Date,
-        required: true
-    },
-    status: {
-        type:String,
-        required:true
-    },
-    owner: {
+  },
+  status: {
       type:String,
       required:true
-    },
-    tasks:[]
-  });
+  },
+  owner: {
+    type:String,
+    required:true
+  }
+  
+});
 
 const Project = mongoose.model('Project', projectSchema);
 
