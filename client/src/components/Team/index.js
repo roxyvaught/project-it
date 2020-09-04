@@ -1,8 +1,8 @@
 import React, { useEffect, useState }  from 'react';
-import { useParams } from 'react-router-dom';
+//import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
-import { QUERY_TASKS_BY_PROJECT } from '../../utils/queries';
-import { QUERY_USER } from '../../utils/queries';
+//import { QUERY_TASKS_BY_PROJECT } from '../../utils/queries';
+import { QUERY_USERS } from '../../utils/queries';
 import { useStoreContext } from '../../utils/GlobalState';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,14 +27,27 @@ function createData(id, name, project) {
 }
 // query projects use current user id.  Store in array.  Query tasks according to each project store in array.  Query user
 // 
-const rows = [
+/*const rows = [
   createData(0, 'Adam Sandler', 'Coffee'),
   createData(1, 'Gabriel Iglesias', 'Notebooks'),
   createData(2,'Trevor Noah', 'Cell Improvement'),
   createData(3, 'Joey Diaz', 'Housing Site'),
   createData(4, 'Tom Segura', 'Coffee'),
-];
+];*/
 
+//newstuff
+const rows =[];
+
+function BuildUsers(userdata, rows){
+  console.log (userdata);
+  let i=0;
+  for (i=0;i<userdata.length;i++){
+    rows.push("createData("+ i , ",'" + userdata[i].username,",'" + userdata[i].email,"')")
+  }
+  return rows;
+  console.log(rows)
+}
+//end
 function preventDefault(event) {
   event.preventDefault();
 }
@@ -48,8 +61,22 @@ const useStyles = makeStyles((theme) => ({
 export default function Team() {
   const [state, dispatch] = useStoreContext();
   const [currentProject, setCurrentProject] = useState({});
-  console.log(state);
+  //console.log(state.currentProject)
+  //console.log(state);
+  const  data  = useQuery(QUERY_USERS);
+  const whatami = data.data
+ 
+  //console.log ("here",data.data);
+  //BuildUsers(data,rows);
   const classes = useStyles();
+  function displayNames(data) {
+    return data.users.map(user => (
+      <TableRow key={user._id}>
+        <TableCell>{user.username}</TableCell>
+        <TableCell>{user.email}</TableCell>
+      </TableRow>
+   )
+  }
   return (
     <React.Fragment>
       <Header>My Team</Header>
