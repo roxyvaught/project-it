@@ -32,7 +32,7 @@ function createData(id, name, project) {
 //newstuff
 const rows =[];
 function BuildUsers(userdata, rows){
-  console.log (userdata);
+  //console.log (userdata);
   let i=0;
   for (i=0;i<userdata.length;i++){
     rows.push("createData("+ i , ",'" + userdata[i].username,",'" + userdata[i].email,"')")
@@ -51,8 +51,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function Team() {
   const [state, dispatch] = useStoreContext();
-  const [currentProject, setCurrentProject] = useState({});
-  //console.log(state.currentProject)
+  //const [currentProject, setCurrentProject] = useState({});
+  const { currentProject } = state;
+  console.log('Here I am',state.currentProject);
   const  data  = useQuery(QUERY_USERS);
   //const whatami = data.data;
   //BuildUsers(data,rows);
@@ -60,7 +61,7 @@ export default function Team() {
   // use JSX to print out the names of the users
   function displayNames(data) {
     if (data) {
-      console.log(data);
+      //console.log(data);
       return data.users.map(user => (
         <TableRow key={user._id}>
           <TableCell>{user.username}</TableCell>
@@ -79,7 +80,7 @@ export default function Team() {
         <TableHead>
           <TableRow>
             <TableCell>Name</TableCell>
-            <TableCell> Project(s) Assigned</TableCell>
+            <TableCell> Email</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
