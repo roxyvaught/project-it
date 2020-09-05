@@ -46,15 +46,21 @@ export default function SignUp(props) {
 
   const handleFormSubmit = async event => {
     event.preventDefault();
-    const mutationResponse = await addUser({
-      variables: {
-        username: formState.username,
-        email: formState.email, 
-        password: formState.password
-      }
-    });
-    const token = mutationResponse.data.addUser.token;
-    Auth.login(token);
+    console.log(formState);
+    try {
+      
+      const mutationResponse = await addUser({
+        variables: {
+          username: formState.username,
+          email: formState.email, 
+          password: formState.password
+        }
+      });
+      const token = mutationResponse.data.addUser.token;
+      Auth.login(token);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleChange = event => {
@@ -64,6 +70,7 @@ export default function SignUp(props) {
       [name]: value
     });
   };
+  // end brent
 
   return (
     <Container component="main" maxWidth="xs">

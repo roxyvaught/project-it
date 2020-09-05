@@ -9,14 +9,18 @@ const commentSchema = new Schema({
       required: true,
       trim: true
     },
-    
+    createDate: {
+      type: Date,
+      required: true,
+      unique: true
+    },
     user: {
       type: String,
       required:true,
       trim:true
     },
     ownerTask: {
-      type:String,
+      type: String,
       required:true,
       trim:true
     }
