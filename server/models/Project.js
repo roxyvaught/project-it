@@ -5,7 +5,21 @@ const { Schema } = mongoose;
 
 
 const projectSchema = new Schema({
-    projname: {
+  projname: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  startDate: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  endDate: {
       type: String,
       required: true,
       trim: true

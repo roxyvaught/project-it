@@ -5,7 +5,22 @@ const { Schema } = mongoose;
 
 
 const taskSchema = new Schema({
-    name: {
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  description: {
+    type: String,
+    required: true
+    
+  },
+  startDate: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  endDate: {
       type: String,
       required: true,
       trim: true

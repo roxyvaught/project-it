@@ -5,7 +5,8 @@ import {
     UPDATE_TASK,
     ADD_COMMENT,
     ADD_TASK,
-    ADD_PROJECT
+    ADD_PROJECT,
+    UPDATE_CURRENT_PROJECT
 } from './actions';
 import { useReducer } from 'react';
 
@@ -35,6 +36,7 @@ export const reducer = (state, action) => {
                 ...state,
                 projects: [...action.projects],
             };
+           
         // if action type of `ADD_TASK`, return a new state object with the new task added to the tasks array
         case ADD_TASK:
             return {
@@ -46,6 +48,11 @@ export const reducer = (state, action) => {
             return {
                 ...state,
                 comments: [...action.comments],
+            };
+        case UPDATE_CURRENT_PROJECT:
+            return {
+                ...state,
+                currentProject: [...action.currentProject]
             };
         default:
             return state;
