@@ -90,9 +90,9 @@ export const QUERY_PROJECT = gql`
 
 
 export const QUERY_USERS = gql`
-    {
+    query users{
         users {
-            _id
+            
             username
             email
         }
