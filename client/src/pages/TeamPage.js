@@ -79,7 +79,7 @@ export default function UserProfile() {
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Email address"
-                    id="email-address"
+                    id="email"
                     formControlProps={{
                       fullWidth: true
                     }}
