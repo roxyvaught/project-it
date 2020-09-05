@@ -35,6 +35,7 @@ export const reducer = (state, action) => {
                 ...state,
                 projects: [...action.projects],
             };
+           
         // if action type of `ADD_TASK`, return a new state object with the new task added to the tasks array
         case ADD_TASK:
             return {

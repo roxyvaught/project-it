@@ -146,7 +146,7 @@ export default function Dashboard() {
 
   
 
-  //console.log(data);
+  //console.log('heretoo',data);
 
   useEffect (() => {
     if (projects.length) {
@@ -181,7 +181,10 @@ export default function Dashboard() {
   function changeProject(e) {
     e.persist();
     const projectId = e.target.offsetParent.id;
-    console.log(projectId);
+    //console.log(projectId);
+    dispatch({
+      currentProject:projectId
+    })
 
   }
 
@@ -206,7 +209,7 @@ export default function Dashboard() {
             </ListItemIcon>
             <ListItemText 
               id={project._id}
-              primary={project.name} 
+              primary={project.projname} 
             />
           </ListItem>
         
