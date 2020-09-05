@@ -66,17 +66,22 @@ export default function Team() {
   const  data  = useQuery(QUERY_USERS);
   const whatami = data.data
  
-  //console.log ("here",data.data);
+  console.log ("here",data.data);
   //BuildUsers(data,rows);
   const classes = useStyles();
+
   function displayNames(data) {
     return data.users.map(user => (
       <TableRow key={user._id}>
         <TableCell>{user.username}</TableCell>
-        <TableCell>{user.email}</TableCell>
+        <TableCell>Project goes here</TableCell>
       </TableRow>
+    )
    )
+
   }
+
+  
   return (
     <React.Fragment>
       <Header>My Team</Header>
@@ -92,7 +97,9 @@ export default function Team() {
             <TableRow key={row.id}>
               <TableCell>{row.name}</TableCell>
               <TableCell >{row.project}</TableCell>
+              {displayNames(data)}
             </TableRow>
+            
           ))}
         </TableBody>
       </Table>
