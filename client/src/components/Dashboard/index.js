@@ -6,6 +6,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { useStoreContext } from '../../utils/GlobalState';
 import { QUERY_PROJECTS } from '../../utils/queries';
 import { UPDATE_PROJECTS } from '../../utils/actions';
+import { UPDATE_CURRENT_PROJECT } from '../../utils/actions'
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -183,7 +184,8 @@ export default function Dashboard() {
     const projectId = e.target.offsetParent.id;
     //console.log(projectId);
     dispatch({
-      currentProject:projectId
+      type:UPDATE_CURRENT_PROJECT,
+      currentProject: projectId
     })
 
   }
