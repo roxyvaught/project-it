@@ -9,11 +9,7 @@ const commentSchema = new Schema({
       required: true,
       trim: true
     },
-    createDate: {
-      type: Date,
-      required: true,
-      unique: true
-    },
+    
     user: {
       type: String,
       required:true,

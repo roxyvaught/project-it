@@ -17,7 +17,7 @@ export default function Charts() {
       { type: 'date', label: 'End Date' },
       { type: 'number', label: 'Duration' },
       { type: 'number', label: 'Percent Complete' },
-      { type: 'string', label: 'Dependencies' },
+      { type: 'string', label: 'Tasks' },
     ],
     [
       'Research',

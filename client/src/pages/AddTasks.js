@@ -17,6 +17,10 @@ import PageHeader from '../components/PageHeader'
 import TextField from '@material-ui/core/TextField';
 import Team from '../components/Team';
 import ProjectSelect from '../components/ProjectSelect';
+import Slider from '../components/Slider'
+
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const styles = {
   cardCategoryWhite: {
@@ -38,15 +42,26 @@ const styles = {
   }
 };
 
+
 const useStyles = makeStyles(styles);
 
 export default function CreateProject() {
   const classes = useStyles();
   const [teammate, setTeammate] = React.useState('');
   
+  const [state, setState] = React.useState({
+    checkedA: true,
+    checkedB: true,
+    checkedF: true,
+    checkedG: true,
+  });
+
   const handleChange = (event) => {
     setTeammate(event.target.value);
+    setState({ ...state, [event.target.name]: event.target.checked });
 };
+
+
   return (
     
     <div>
@@ -114,7 +129,13 @@ export default function CreateProject() {
             <MenuItem value={20}>Sam</MenuItem>
             <MenuItem value={30}>Ana</MenuItem>
           </Select>
-     
+          
+        <Slider />
+
+          <FormControlLabel
+        control={<Checkbox checked={state.checkedA} onChange={handleChange} name="checkedA" />}
+        label="On Critical Path"
+      />
                 </GridItem>
               </GridContainer>
             </CardBody>

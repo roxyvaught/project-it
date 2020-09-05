@@ -23,6 +23,7 @@ const projectSchema = new Schema({
       type: String,
       required: true,
       trim: true
+
   },
   status: {
       type:String,
@@ -34,6 +35,7 @@ const projectSchema = new Schema({
   }
   
 });
+
 
 const Project = mongoose.model('Project', projectSchema);
 

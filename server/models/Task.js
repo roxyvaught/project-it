@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-//const User = require('./User');
-//const Comment = require('./Comment')
+const User = require('./User');
+const Comment = require('./Comment')
 const { Schema } = mongoose;
 
 
@@ -24,6 +24,7 @@ const taskSchema = new Schema({
       type: String,
       required: true,
       trim: true
+
   },
   status: {
       type:String,
@@ -47,6 +48,8 @@ const taskSchema = new Schema({
     trim:true
   }
 });
+
+ 
 
 const Task = mongoose.model('Task', taskSchema);
 

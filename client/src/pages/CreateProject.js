@@ -100,7 +100,7 @@ export default function CreateProject() {
               <div>&nbsp;&nbsp;</div>
               <GridContainer>
               <GridItem>
-          <InputLabel id="select">Teammate</InputLabel>
+          <InputLabel id="select">Assign Teammate</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
