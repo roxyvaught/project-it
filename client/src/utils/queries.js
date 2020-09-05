@@ -90,9 +90,9 @@ export const QUERY_PROJECT = gql`
 
 
 export const QUERY_USERS = gql`
-    {
-        user {
-            _id
+    query users{
+        users {
+            
             username
             email
         }
@@ -120,6 +120,10 @@ export const QUERY_TASKS_BY_PROJECT = gql`
       startDate
       endDate
       status
+      percentDone
+      criticalPath
+      ownerProject
+      
     }
   }
 `;
@@ -137,7 +141,7 @@ export const QUERY_PROJECTS = gql`
     query getProjects($owner: String!) {
         projectsByOwner(owner: $owner) {
             _id
-            name
+            projname
         }
     }
 `;
