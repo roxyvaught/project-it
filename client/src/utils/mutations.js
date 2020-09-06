@@ -33,6 +33,7 @@ export const ADD_PROJECT = gql`
             owner: $owner)
             { 
             _id
+            projname
             }
         
     }
