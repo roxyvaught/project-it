@@ -1,6 +1,8 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import Auth from '../utils/auth';
 import { useMutation } from '@apollo/react-hooks';
+import { useStoreContext } from '../utils/GlobalState';
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import { ADD_PROJECT } from '../utils/mutations';
@@ -16,9 +18,12 @@ import CardBody from "../components/Card/CardBody.js";
 import CardFooter from "../components/Card/CardFooter.js";
 //import Select from '@material-ui/core/Select';
 //import MenuItem from '@material-ui/core/MenuItem';
+
+import { UPDATE_PROJECTS } from '../utils/actions';
 import PageHeader from '../components/PageHeader'
 import TextField from '@material-ui/core/TextField';
 import Team from '../components/Team';
+import { idbPromise } from "../utils/helpers";
 
 const styles = {
   cardCategoryWhite: {
@@ -45,7 +50,7 @@ const useStyles = makeStyles(styles);
 export default function CreateProject() {
   const [addProject, ] = useMutation(ADD_PROJECT);
       
-
+  const [, dispatch] = useStoreContext();
       
   // get the userID
   function getUserID() {
@@ -84,7 +89,19 @@ export default function CreateProject() {
         owner: userid
       }})
       const data = mutationResponse.data;
-      console.log(data);
+      //console.log(data);
+
+        // store the data in the globalstate object
+        dispatch({
+          type: UPDATE_PROJECTS,
+          projects: data.addProject
+        });
+
+        // save the project to indexedDB
+        // data.addProject.forEach((project) => {
+           idbPromise('projects', 'put', data.addProject);
+        // });
+ 
     } catch (e) {
       console.log(e);
     }
@@ -123,7 +140,7 @@ export default function CreateProject() {
                     value={formState.projname}
                     defaultValue={formState.projname}
                     inputProps={{
-                      onChange: handleChange1
+                      onChange: (e) => handleChange1(e)
                     }}
                     formControlProps={{
                       fullWidth: true
@@ -138,7 +155,7 @@ export default function CreateProject() {
                     value={formState.description}
                     defaultValue={formState.description}
                     inputProps={{
-                      onChange: handleChange1
+                      onChange: (e) => handleChange1(e)
                     }}
                     formControlProps={{
                       fullWidth: true
@@ -152,7 +169,7 @@ export default function CreateProject() {
                     type="date"
                     defaultValue={formState.startDate}
                     className={classes.textField}
-                    onChange={handleChange1}
+                    onChange={(e) => handleChange1(e)}
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -165,7 +182,7 @@ export default function CreateProject() {
                   type="date"
                   defaultValue={formState.endDate}
                   className={classes.textField}
-                  onChange={handleChange1}
+                  onChange={(e) => handleChange1(e)}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -175,7 +192,7 @@ export default function CreateProject() {
               <div>&nbsp;&nbsp;</div>
             </CardBody>
             <CardFooter>
-              <Button color="success" onClick={() => handleFormSubmit(userid)}>Add Your Project</Button>
+              <Button component={Link} to="/" color="success" onClick={() => handleFormSubmit(userid)}>Add Your Project</Button>
             </CardFooter>
           </Card>
         </GridItem>
