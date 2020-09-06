@@ -103,3 +103,13 @@ export const ADD_COMMENT = gql`
         
     }
 `;
+
+export const ADD_OWNERUSER = gql`
+    mutation addOwnerUser($ownerUser: String!) {
+        addOwnerUser(
+            owneruser: $owneruser)
+            {
+            _id
+        }
+    }
+`;

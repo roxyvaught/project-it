@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 //import InputLabel from "@material-ui/core/InputLabel";
@@ -17,6 +17,11 @@ import PageHeader from '../components/PageHeader';
 import ProjectSelect from '../components/ProjectSelect';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Team from '../components/Team';
+import OwnerUser from '../components/OwnerUser'
+
+
+
+
 
 const styles = {
   cardCategoryWhite: {
@@ -40,6 +45,8 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function UserProfile() {
+  
+
   const classes = useStyles();
   //const [teammate, setTeammate] = React.useState('');
   
@@ -47,46 +54,13 @@ export default function UserProfile() {
     //setTeammate(event.target.value);
 //};
   return (
-    
     <div>
       <PageHeader />
       <div>&nbsp;&nbsp;</div>
       <div>&nbsp;&nbsp;</div>
       <div>&nbsp;&nbsp;</div>
       <div>&nbsp;&nbsp;&nbsp;</div>
-      <GridContainer>
-        <GridItem xs={12} sm={12} md={8}>
-          <Card>
-            <CardHeader color="success">
-              <h4 className={classes.cardTitleWhite}>Teammates</h4>
-              <p className={classes.cardCategoryWhite}>Build Your Team</p>
-            </CardHeader>
-            <CardBody>
-              <GridContainer>
-                <GridItem xs={12}>
-                  <ProjectSelect />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={3}>
-                  <CustomInput
-                    labelText="Username"
-                    id="username"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                   <FormHelperText>Enter Your Teammate's Username</FormHelperText>
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Email address"
-                    id="email"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-            
+     <OwnerUser />
               {/*<GridContainer>
               <GridItem>
           <InputLabel id="select">teammate</InputLabel>
@@ -104,12 +78,7 @@ export default function UserProfile() {
      
                 </GridItem>
               </GridContainer>*/}
-            </CardBody>
-            <CardFooter>
-              <Button color="success">Add User</Button>
-            </CardFooter>
-          </Card>
-        </GridItem>
+      
         <GridItem xs={12} sm={12} md={4}>
           <Card profile>
             
@@ -118,7 +87,7 @@ export default function UserProfile() {
             </CardBody>
           </Card>
         </GridItem>
-      </GridContainer>
+      
     </div>
   );
 }

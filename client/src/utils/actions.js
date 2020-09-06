@@ -7,4 +7,5 @@ export const ADD_TASK = "ADD_TASK";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const QUERY_PROJECT = "QUERY_PROJECT";
 export const UPDATE_CURRENT_PROJECT = "UPDATE_CURRENT_PROJECT";
+export const ADD_OWNERUSER = "ADD_OWNERUSER";
 

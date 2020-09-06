@@ -146,7 +146,15 @@ export const QUERY_PROJECTS = gql`
     }
 `;
 
+export const QUERY_OWNERUSER = gql`
+query ownerUser {
+    ownerUser {
+        
+        ownerUser
 
+    }
+}
+`;
 
 
 

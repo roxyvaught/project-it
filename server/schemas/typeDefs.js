@@ -43,6 +43,11 @@ const typeDefs = gql`
     token: ID!
     user: User
   }
+
+  type OwnerUser {
+    ownerUser: String
+  }
+
   type Query {
     projects:[Project]
     project(_id: ID!):Project
@@ -53,15 +58,17 @@ const typeDefs = gql`
     comments(ownerTask: String!): [Comment]
     projectByUser(owner:ID!):[Project]
     myTeam(owner:ID):String
+    ownerUser: [OwnerUser]
     }
   type Mutation {
     addUser(username: String!, email: String!, password: String!):  Auth,
     addProject(projname: String!, description:String!, startDate:String!, endDate:String!, status:String, owner: String!): Project
     updateProject (_id: ID!, projname: String, description:String, startDate:String, endDate:String, status:String, owner: String): Project
     addTask(name:String!, description: String!,startDate:String!, endDate:String!,owner:ID!, status: String,percentDone:Int, criticalPath:Boolean,ownerUser:String!, ownerProject:String!): Task
-    updateTask(_id: ID!, name:String, description: String, startDate:String, endDate:String, owner:ID, status: String, percentDone:Int, criticalPath:Boolean, ownerUser:String, ownerProject:String):Task
+    updateTask(_id: ID!, name:String, description: String, startDate:String, endDate:String, owner:ID, status: String, percentDone:Int, criticalPath:Boolean, ownerUser:String, ownerProject:String): Task
     addComment(comment:String!, user: String!, ownerTask:String!): Comment
-    login(email: String!, password: String!): Auth
+    login(email: String!, password: String!): Auth,
+    addOwnerUser (ownerUser: String!): OwnerUser
   }
 `;
 
