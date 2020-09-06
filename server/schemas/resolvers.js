@@ -25,8 +25,8 @@ const resolvers = {
         users: async () => {
             return await User.find();
         },
-        tasks: async (parent,{_id}) =>{
-            return await Task.find({ownerProject:_id});
+        tasks: async (parent,{ownerProject}) =>{
+            return await Task.find({ownerProject: ownerProject});
         },
         comments: async (parent,{ownerTask}) =>{
             return await Comment.find({ownerTask:ownerTask});
