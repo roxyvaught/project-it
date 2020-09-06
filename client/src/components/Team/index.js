@@ -1,8 +1,9 @@
 import React, { useEffect, useState }  from 'react';
 //import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
-//import { QUERY_TASKS_BY_PROJECT } from '../../utils/queries';
+import { QUERY_TASKS_BY_PROJECT } from '../../utils/queries';
 import { QUERY_USERS } from '../../utils/queries';
+
 import { useStoreContext } from '../../utils/GlobalState';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
@@ -52,9 +53,14 @@ const useStyles = makeStyles((theme) => ({
 export default function Team() {
   const [state, dispatch] = useStoreContext();
   //const [currentProject, setCurrentProject] = useState({});
-  const { currentProject } = state;
-  console.log('Here I am',state.currentProject);
+ 
+  //console.log('Here I am',state.currentProject);
+  const curProjArray = state.currentProject.toString();
+  const curProjString = curProjArray.replace(/,/g, ''); 
+  
   const  data  = useQuery(QUERY_USERS);
+  const  data2  = useQuery(QUERY_TASKS_BY_PROJECT,{variables: {ownerProject: curProjString}} );
+  console.log ('Here I am',data2.data);
   //const whatami = data.data;
   //BuildUsers(data,rows);
   const classes = useStyles();
