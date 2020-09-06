@@ -22,6 +22,16 @@ import Slider from '../components/Slider'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
+// add task imports
+
+import { Link } from 'react-router-dom';
+import Auth from '../utils/auth';
+import { useMutation } from '@apollo/react-hooks';
+import { useStoreContext } from '../utils/GlobalState';
+import { ADD_TASK } from '../utils/mutations';
+
+import { UPDATE_TASK } from '../utils/actions';
+import { idbPromise } from "../utils/helpers";
 const styles = {
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
@@ -42,10 +52,79 @@ const styles = {
   }
 };
 
-
 const useStyles = makeStyles(styles);
 
 export default function CreateProject() {
+  const [addTask, ] = useMutation(ADD_TASK);
+      
+  const [, dispatch] = useStoreContext();
+
+ // get the userID
+ function getUserID() {
+  if (Auth.loggedIn()) {
+    const token = Auth.getToken();
+    const user = Auth.getProfile(token);
+    console.log(user.data._id);
+    return user.data._id;
+  }
+}
+const userid = getUserID();     
+
+  // initialize the variables in state
+  const [formState, setFormState] = React.useState({
+    name: "",
+    description: "",
+    startDate: "",
+    endDate: "",
+    status: "NOT_ASSIGNED",
+    percentDone: "",
+    criticalPath: ""
+  });
+
+  
+  const handleFormSubmit = async event => {
+
+    //event.preventDefault();
+    try {
+      const mutationResponse = await addTask({ variables: {
+        name: formState.name,
+        description: formState.description,
+        startDate: formState.startDate,
+
+        endDate: formState.endDate,
+        status: formState.status,
+        percentDone: formState.percentDone,
+        criticalPath: formState.criticalPath,
+        owner: userid
+      }})
+      const data = mutationResponse.data;
+      //console.log(data);
+
+        // store the data in the globalstate object
+        dispatch({
+          type: UPDATE_TASK,
+          tasks: data.addTask
+        });
+
+        // save the project to indexedDB
+        // data.addProject.forEach((project) => {
+           idbPromise('tasks', 'put', data.addTask);
+        // });
+ 
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // track the form fields
+  const handleChange1 = (e) => {
+    const key = e.target.id;
+    const val = e.target.value;
+    const newState = {...formState};
+    newState[key] = val;
+    setFormState(newState);
+  };
+
   const classes = useStyles();
   const [teammate, setTeammate] = React.useState('');
   
@@ -83,7 +162,27 @@ export default function CreateProject() {
               <GridItem xs={12}>
                   <CustomInput
                     labelText="Task Name"
-                    id="project"
+                    id="name"
+                    value={formState.name}
+                    defaultValue={formState.name}
+                    inputProps={{
+                      onChange: (e) => handleChange1(e)
+                    }}
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12}>
+                  <CustomInput
+                  
+                    labelText="Description"
+                    id="description"
+                    value={formState.description}
+                    defaultValue={formState.description}
+                    inputProps={{
+                      onChange: (e) => handleChange1(e)
+                    }}
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -94,8 +193,9 @@ export default function CreateProject() {
                     id="date"
                     label="Start Date"
                     type="date"
-                    defaultValue="2017-05-24"
+                    defaultValue={formState.startDate}
                     className={classes.textField}
+                    onChange={(e) => handleChange1(e)}
                     InputLabelProps={{
                       shrink: true,
                     }}
@@ -106,8 +206,9 @@ export default function CreateProject() {
                   id="date"
                   label="End Date"
                   type="date"
-                  defaultValue="2017-05-24"
+                  defaultValue={formState.startDate}
                   className={classes.textField}
+                  onChange={(e) => handleChange1(e)}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -117,7 +218,7 @@ export default function CreateProject() {
               <div>&nbsp;&nbsp;</div>
               <GridContainer>
               <GridItem>
-          <InputLabel id="select">Assign Teammate</InputLabel>
+          {/*<InputLabel id="select">Assign Teammate</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -128,19 +229,26 @@ export default function CreateProject() {
             <MenuItem value={10}>Mishka</MenuItem>
             <MenuItem value={20}>Sam</MenuItem>
             <MenuItem value={30}>Ana</MenuItem>
-          </Select>
+                </Select> */}
           
         <Slider />
 
           <FormControlLabel
-        control={<Checkbox checked={state.checkedA} onChange={handleChange} name="checkedA" />}
+        control={<Checkbox checked={state.checkedA} 
+        onChange={handleChange} 
+        name="checkedA" />}
         label="On Critical Path"
+        inputProps={{
+          onChange: (e) => handleChange1(e)
+        }}
       />
                 </GridItem>
               </GridContainer>
             </CardBody>
             <CardFooter>
-              <Button color="success">Add Task</Button>
+            <Button component={Link} to="/" color="success" onClick={() => handleFormSubmit(userid)}>
+              Add Task
+              </Button>
             </CardFooter>
           </Card>
         </GridItem>

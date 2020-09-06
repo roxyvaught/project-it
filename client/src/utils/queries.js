@@ -123,6 +123,7 @@ export const QUERY_TASKS_BY_PROJECT = gql`
       percentDone
       criticalPath
       ownerProject
+      ownerUser
       
     }
   }

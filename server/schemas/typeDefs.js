@@ -49,7 +49,7 @@ const typeDefs = gql`
     projectsByOwner(owner: String): [Project]
     user (_id:ID!): User
     users: [User]
-    tasks(ownerProject: ID!): [Task]
+    tasks(ownerProject: String!): [Task]
     comments(ownerTask: String!): [Comment]
     projectByUser(owner:ID!):[Project]
     myTeam(owner:ID):String
@@ -58,7 +58,7 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!):  Auth,
     addProject(projname: String!, description:String!, startDate:String!, endDate:String!, status:String, owner: String!): Project
     updateProject (_id: ID!, projname: String, description:String, startDate:String, endDate:String, status:String, owner: String): Project
-    addTask(name:String!, description: String!,startDate:String!, endDate:String!,owner:ID!, status: String,percentDone:Int, criticalPath:Boolean,ownerUser:String!, ownerProject:String!): Task
+    addTask(name:String!, description: String!,startDate:String!, endDate:String!, status: String,percentDone:Int, criticalPath:Boolean,ownerUser:String!, ownerProject:String!): Task
     updateTask(_id: ID!, name:String, description: String, startDate:String, endDate:String, owner:ID, status: String, percentDone:Int, criticalPath:Boolean, ownerUser:String, ownerProject:String):Task
     addComment(comment:String!, user: String!, ownerTask:String!): Comment
     login(email: String!, password: String!): Auth
