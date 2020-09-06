@@ -75,7 +75,6 @@ export default function CreateProject() {
     status: "NOT_ASSIGNED"
   });
   
-
   const handleFormSubmit = async event => {
 
     //event.preventDefault();
@@ -84,6 +83,7 @@ export default function CreateProject() {
         projname: formState.projname,
         description: formState.description,
         startDate: formState.startDate,
+
         endDate: formState.endDate,
         status: formState.status,
         owner: userid
