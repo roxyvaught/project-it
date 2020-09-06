@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 //const Task = require('./Task');
 //const User = require('./User')
 const { Schema } = mongoose;
-
-
 const projectSchema = new Schema({
   projname: {
     type: String,
@@ -46,9 +44,6 @@ const projectSchema = new Schema({
       type:String,
       required:true
     }
-    
   });
-
 const Project = mongoose.model('Project', projectSchema);
-
 module.exports = Project;
